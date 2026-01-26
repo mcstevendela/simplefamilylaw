@@ -1,0 +1,32 @@
+{# Template for WooCommerce my account page #}
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="woocommerce-myaccount">
+		<div class="container">
+			<h1>{{ 'My Account' }}</h1>
+
+			{% do action('woocommerce_before_account_navigation') %}
+
+			<div class="row">
+				<div class="col-md-3">
+					{% do action('woocommerce_account_navigation') %}
+				</div>
+
+				<div class="col-md-9">
+					{% do action('woocommerce_before_account_content') %}
+					{% do action('woocommerce_account_content') %}
+					{% do action('woocommerce_after_account_content') %}
+
+					{# Active Subscriptions Section #}
+					<div class="subscriptions-section">
+						<h2>{{ 'My Subscriptions' }}</h2>
+						{% do action('woocommerce_account_subscriptions') %}
+					</div>
+				</div>
+			</div>
+
+			{% do action('woocommerce_after_account_navigation') %}
+		</div>
+	</div>
+{% endblock %}

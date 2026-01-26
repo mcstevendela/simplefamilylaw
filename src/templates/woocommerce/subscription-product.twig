@@ -1,0 +1,44 @@
+{# Template for WooCommerce subscription product display #}
+<div class="subscription-product-card">
+	<div class="subscription-badge">{{ 'Subscription' }}</div>
+	
+	{% if product %}
+		<h3 class="subscription-title">{{ product.get_name() }}</h3>
+		
+		<div class="subscription-description">
+			{{ product.get_short_description() }}
+		</div>
+
+		<div class="subscription-pricing">
+			<p class="main-price">
+				{{ product.get_price_html()|raw }}
+			</p>
+			
+			{% set billing_period = product.get_meta('_subscription_period') %}
+			{% set billing_interval = product.get_meta('_subscription_interval') %}
+			
+			<p class="billing-period">
+				{{ 'Renews every' }} 
+				<strong>
+					{% if billing_interval == '1' %}
+						{{ billing_period|lower }}
+					{% else %}
+						{{ billing_interval }} {{ billing_period|lower }}s
+					{% endif %}
+				</strong>
+			</p>
+		</div>
+
+		<div class="subscription-features-summary">
+			<ul>
+				<li>{{ 'Full access to all content' }}</li>
+				<li>{{ 'Cancel anytime' }}</li>
+				<li>{{ 'Automatic renewal' }}</li>
+			</ul>
+		</div>
+
+		<button class="add-to-cart-button" data-product_id="{{ product.get_id() }}">
+			{{ 'Subscribe Now' }}
+		</button>
+	{% endif %}
+</div>

@@ -1,0 +1,25 @@
+{# Template for WooCommerce shopping cart page #}
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="woocommerce-cart">
+		<div class="container">
+			<h1>{{ 'Shopping Cart' }}</h1>
+
+			{% do action('woocommerce_before_cart') %}
+
+			<div class="cart-content">
+				{% do action('woocommerce_before_cart_table') %}
+
+				<table class="shop_table shop_table_responsive cart">
+					{% do action('woocommerce_cart_contents') %}
+				</table>
+
+				{% do action('woocommerce_cart_collaterals') %}
+				{% do action('woocommerce_after_cart_table') %}
+			</div>
+
+			{% do action('woocommerce_after_cart') %}
+		</div>
+	</div>
+{% endblock %}

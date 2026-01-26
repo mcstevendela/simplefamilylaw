@@ -69,6 +69,19 @@ class StarterSite extends Timber\Site {
 		add_theme_support( 'post-thumbnails' ); 
 		add_theme_support('widgets');
 		add_theme_support('html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'editor-styles'));
+		add_theme_support('woocommerce', array(
+			'product_grid' => array(
+				'default_columns' => 3,
+				'min_columns'     => 1,
+				'max_columns'     => 6,
+			),
+			'gallery'       => array(
+				'enabled' => true,
+			),
+			'single_image_width' => 500,
+		));
+		add_theme_support('wc-product-gallery-lightbox');
+		add_theme_support('wc-product-gallery-slider');
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
 		add_filter('timber_context', array($this, 'add_to_context'));
 		add_filter('timber_context',  array($this, 'global_info'));
@@ -308,3 +321,34 @@ function set_admin_menu_separator() {
 		4   =>  'wp-menu-separator'
 	);
 }
+
+// WooCommerce Hooks and Filters
+// Remove WooCommerce default styles to use custom ones
+add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
+
+// Add WooCommerce support to Timber context
+add_filter( 'timber_context', function( $context ) {
+	$context['is_product'] = is_singular( 'product' );
+	$context['is_product_taxonomy'] = is_tax( array( 'product_cat', 'product_tag' ) );
+	$context['cart_url'] = wc_get_cart_url();
+	$context['account_url'] = wc_get_account_page_url();
+	return $context;
+});
+
+// Redirect to custom WooCommerce templates
+add_filter( 'woocommerce_locate_template', function( $template, $template_name, $template_path ) {
+	return $template;
+}, 10, 3 );
+
+// Add product subscription information to context
+add_filter( 'timber_context', function( $context ) {
+	if ( is_singular( 'product' ) ) {
+		$product = wc_get_product( get_the_ID() );
+		if ( $product && 'subscription' === $product->get_type() ) {
+			$context['is_subscription'] = true;
+			$context['subscription_period'] = $product->get_meta( '_subscription_period' );
+			$context['subscription_interval'] = $product->get_meta( '_subscription_interval' );
+		}
+	}
+	return $context;
+});

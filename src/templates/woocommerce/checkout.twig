@@ -1,0 +1,51 @@
+{# Template for WooCommerce checkout page #}
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="woocommerce-checkout">
+		<div class="container">
+			<h1>{{ 'Checkout' }}</h1>
+
+			{% do action('woocommerce_before_checkout_form') %}
+
+			<div class="checkout-content">
+				{% do action('woocommerce_checkout_before') %}
+				
+				<form name="checkout" class="checkout woocommerce-checkout" action="" method="post" enctype="multipart/form-data">
+					{% do action('woocommerce_checkout_login_form') %}
+					{% do action('woocommerce_checkout_coupon_form') %}
+
+					<div class="row">
+						<div class="col-md-8">
+							{% do action('woocommerce_checkout_before_customer_details') %}
+							
+							<div class="customer-details">
+								{% do action('woocommerce_checkout_billing') %}
+							</div>
+
+							<div class="customer-shipping">
+								{% do action('woocommerce_checkout_shipping') %}
+							</div>
+
+							{% do action('woocommerce_checkout_after_customer_details') %}
+						</div>
+
+						<div class="col-md-4">
+							{% do action('woocommerce_checkout_before_order_review') %}
+							
+							<div class="order-review-wrapper">
+								{% do action('woocommerce_checkout_order_review') %}
+							</div>
+
+							{% do action('woocommerce_checkout_after_order_review') %}
+						</div>
+					</div>
+				</form>
+
+				{% do action('woocommerce_checkout_after') %}
+			</div>
+
+			{% do action('woocommerce_after_checkout_form') %}
+		</div>
+	</div>
+{% endblock %}
