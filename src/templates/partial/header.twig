@@ -1,0 +1,83 @@
+<div class="rd-top-header bg-white py-2">
+  <div class="rd-container">
+    <div class="flex flex-col lg:flex-row justify-between items-center">
+      <div class="hidden lg:flex items-center">
+        <div class="flex items-center mr-10">
+          <img src="{{ global.global_address.global_location_icon.url }}" alt="{{ global.global_address.global_location_icon.alt }}" class="mr-2">
+          <a href="{{ global.global_address.global_location.url }}" target="{{ global.global_address.global_location.target }}" class="rd-header-links">{{ global.global_address.global_location.title }}</a>
+        </div>
+        <div class="flex items-center mr-10">
+          <img src="{{ global.global_address.global_email_address_icon.url }}" alt="{{ global.global_address.global_email_address_icon.alt }}" class="mr-2">
+          <a href="{{ global.global_address.global_email_address.url }}" target="{{ global.global_address.global_email_address.target }}" class="rd-header-links">{{ global.global_address.global_email_address.title }}</a>
+        </div>
+        <div class="flex items-center mr-10">
+          <img src="{{ global.global_address.global_phone_number_icon.url }}" alt="{{ global.global_address.global_phone_number_icon.alt }}" class="mr-2 ">
+          <a href="{{ global.global_address.global_phone_number.url }}" target="{{ global.global_address.global_phone_number.target }}" class="rd-header-links">{{ global.global_address.global_phone_number.title }}</a>
+        </div>
+      </div>
+
+      <div class="lg:hidden w-full relative mb-2 rd-top-contact-swiper">
+        <div class="swiper contact-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide flex items-center justify-center">
+              <img src="{{ global.global_address.global_location_icon.url }}" alt="{{ global.global_address.global_location_icon.alt }}" class="mr-2">
+              <a href="{{ global.global_address.global_location.url }}" target="{{ global.global_address.global_location.target }}" class="rd-header-links">{{ global.global_address.global_location.title }}</a>
+            </div>
+            <div class="swiper-slide flex items-center justify-center">
+              <img src="{{ global.global_address.global_email_address_icon.url }}" alt="{{ global.global_address.global_email_address_icon.alt }}" class="mr-2">
+              <a href="{{ global.global_address.global_email_address.url }}" target="{{ global.global_address.global_email_address.target }}" class="rd-header-links">{{ global.global_address.global_email_address.title }}</a>
+            </div>
+            <div class="swiper-slide flex items-center justify-center">
+              <img src="{{ global.global_address.global_phone_number_icon.url }}" alt="{{ global.global_address.global_phone_number_icon.alt }}" class="mr-2">
+              <a href="{{ global.global_address.global_phone_number.url }}" target="{{ global.global_address.global_phone_number.target }}" class="rd-header-links">{{ global.global_address.global_phone_number.title }}</a>
+            </div>
+          </div>
+            <div class="swiper-button-prev">
+              <img src="{{ theme.link }}/images/icons/icon-contact-swiper-left.png" alt="Previous" />
+            </div>
+          <div class="swiper-button-next">
+            <img src="{{ theme.link }}/images/icons/icon-contact-swiper-right.png" alt="Next" />
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center">
+        {% for item in global.global_social %}
+          <a href="{{ item.social_link.url }}" target="{{ item.social_link.target }}">
+            <img src="{{ item.social_image.url }}" alt="{{ item.social_image.alt }}" class="ml-2 md:ml-0 mr-2 rd-header-social-item__link">
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rd-header-container rd-container">
+  <div class="rd-header-wrapper flex justify-between items-center">
+    <!-- Logo -->
+    <div class="rd-header-logo">
+      <a href="{{ site.link }}">
+        <img src="{{ global.header_logo.url }}" alt="{{ site.title }} - logo" title={{ global.logo_image.title }}>
+      </a>
+    </div>
+    <!-- Logo End -->
+    <!-- Nav -->
+    <div class="rd-header-nav">
+      <!-- Menu -->
+      <div class="rd-header-menu">
+        <div class="rd-desktop">
+          {% include 'partial/menu.twig'%}
+        </div>
+        <div class="rd-mobile">
+          {% include 'partial/menu-mobile.twig'%}
+        </div>
+      </div>
+      <!-- Menu End -->
+      <!-- Button -->
+      <a href="{{ global.header_button.url }}" target="{{ global.header_button.target }}" class="btn btn-primary rd-header-nav__button">
+        {{ global.header_button.title }}
+      </a>
+      <!-- Button End -->
+    </div>
+    <!-- Nav End -->
+  </div>
+</div>

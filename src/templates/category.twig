@@ -1,0 +1,82 @@
+{% extends "index.twig" %}
+
+{% block content %}
+
+<section class="rd-block rd-banner rd-banner-home">
+  <div class="rd-banner-bg">
+    {% if theme.link %}
+      <img src="{{ theme.link }}/images/main-hero-image.jpg" alt="Hero background" class="rd-banner-bg__image rd-responsive">
+    {% endif %}
+  </div>
+  <div class="rd-container rd-banner-wrapper">
+    <div class="rd-banner-content">
+      <div class="w-full lg:w-1/2 mb-10 lg:mb-0">
+        {% if category.name %}
+          <h1 class="rd-banner__title">Category: {{ category.name }}</h1>
+        {% endif %}
+          <div class="w-full text-center  lg:text-left">
+            <a href="{{ site.url }}/contact-us" class="rd-banner__button btn btn-primary">Request a Free Consultation</a>
+          </div>
+      </div>
+
+        <div class="rd-form-main w-full lg:w-1/3">
+            <p class="rd-form__title text-center">Get A Free Quote</p>
+            {{ fn('do_shortcode', '[brb_collection id="1199"]')|raw }}
+            {{ fn('do_shortcode', '[fluentform id="1"]')|raw }}
+        </div>
+    </div>
+  </div>
+</section>
+
+<section class="file-family-law-blog rd-spacing bg-white">
+
+	<div class="rd-container rd-card-main" style="padding-top: 0 !important;">
+		{# Loop through posts provided by archive context #}
+		{% for post in posts %}
+			{% set link = post.link %}
+			{% set thumbnail_url = post.thumbnail.src|default('') %}
+			<article class="px-4 mb-8">
+				<a href="{{ link }}">
+					<figure>
+						<img style="height: 300px; object-fit:cover;object-position:center;width: 100%;" src="{{ thumbnail_url }}"
+							alt="{{ post.title }}">
+					</figure>
+				</a>
+				<a href="{{ link }}">
+					<h3 class="text-2xl text-black mb-4">{{ post.title }}</h3>
+				</a>
+				<div class="button-wrapper text-primary fill-primary hover:text-sky-800 hover:fill-sky-800">
+					<a class="btn btn-primary rd-header-nav__button"
+						href="{{ link }}">READ MORE
+					</a>
+				</div>
+			</article>
+		{% endfor %}
+
+		{# Pagination (if available in context) #}
+		{% if pagination %}
+		<div class="tool-pagination">
+			{% if pagination.prev %}
+			<a href="{{pagination.prev.link}}"
+				class="prev {{pagination.prev.link|length ? '' : 'invisible'}}">Prev</a>
+			{% endif %}
+			<ul class="pages">
+				{% for page in pagination.pages %}
+				<li>
+					{% if page.link %}
+					<a href="{{page.link}}" class="{{page.class}}">{{page.title}}</a>
+					{% else %}
+					<span class="{{page.class}}">{{page.title}}</span>
+					{% endif %}
+				</li>
+				{% endfor %}
+			</ul>
+			{% if pagination.next %}
+			<a href="{{pagination.next.link}}"
+				class="next {{pagination.next.link|length ? '' : 'invisible'}}">Next</a>
+			{% endif %}
+		</div>
+		{% endif %}
+	</div>
+</section>
+{% endblock %}

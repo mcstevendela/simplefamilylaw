@@ -1,0 +1,105 @@
+<footer class="rd-footer relative">
+  <div class="rd-footer-bg">
+    {% if global.footer_background_image %}
+      <img src="{{ global.footer_background_image.url }}" alt="{{ global.footer_background_image.alt }}" class="rd-footer-bg__image rd-responsive">
+    {% endif %}
+  </div>
+  <!-- Footer Top -->
+  <div class="rd-footer-top relative" style="z-index: 2;">
+    <div class="rd-footer-wrapper rd-container">
+      <!-- Column 1 -->
+      <div class="rd-footer-col rd-footer-col-1">
+        <div class="rd-footer-logo">
+          <a href="{{ site.link }}">
+            <img src="{{ global.footer_logo.url }}" alt="{{ site.title }} - logo" title={{ global.footer_logo.title }}>
+          </a>
+        </div>
+        <p class="rd-footer-description">
+          {{ global.footer_description }}
+        </p>
+        {% if global.footer_license_info %}
+        <div class="rd-footer-license">
+          <span class="rd-footer-heading">License Info:</span>
+          <div class="rd-footer-info">
+            {% for item in global.footer_license_info %}
+              <span class="rd-footer-info__text">
+                {{ item.footer_license }}
+              </span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        {% if global.global_social_footer %}
+        <div class="rd-footer-social">
+          <span class="rd-footer-heading">Follow us:</span>
+          <div class="rd-footer-social-list">
+            {% for item in global.global_social_footer %}
+              <a href="{{ item.social_link.url }}" target="{{ item.social_link.target }}" class="rd-footer-social-item__link">
+                <img src="{{ item.social_image.url }}" class="">
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      <!-- Column 1 End -->
+
+      <!-- Column 2 -->
+      <div class="rd-footer-col rd-footer-col-2">
+        <div class="rd-footer-col-2-inner">
+          <span class="rd-footer-heading">Service Areas:</span>
+          {% if global.footer_service_areas %}
+          <ul class="rd-footer-menu">
+            {% for item in global.footer_service_areas %}
+              <li class="rd-footer-menu-item">
+                <a href="{{ item.footer_service_area_link.url }}" class="rd-footer-menu__link">- {{ item.footer_service_area_link.title }} </a>
+              </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      <!-- Column 2 End -->
+
+      <!-- Column 3 -->
+      <div class="rd-footer-col rd-footer-col-3">
+        <div class="rd-footer-col-3-inner">
+          <span class="rd-footer-heading">Our Services:</span>
+          {% if global.footer_service_links %}
+          <ul class="rd-footer-menu">
+            {% for item in global.footer_service_links %}
+              <li class="rd-footer-menu-item">
+                <a href="{{ item.footer_service_link.url }}" class="rd-footer-menu__link">- {{ item.footer_service_link.title }} </a>
+              </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      <!-- Column 3 End -->
+
+
+    </div>
+  </div>
+  <!-- Footer Top End -->
+  <!-- Footer Bottom -->
+  <div class="rd-footer-bottom relative" style="z-index: 2;">
+    <div class="rd-footer-bottom-wrapper rd-container pt-4" style="border-top: 1px solid;">
+      <p class="rd-footer-bottom-copy">
+        Copyright © {{ "now"|date("Y") }} <span>{{ global.footer_copyright }}</span> | All Rights Reserved
+      </p>
+    </div>
+      {% if global.footer_links %}
+      <ul class="rd-footer-bottom-links">
+        {% for item in global.footer_links %}
+          <li class="rd-footer-bottom-links-item">
+            <a href="{{ item.footer_link.url }}" class="rd-footer-bottom-links__link">{{ item.footer_link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+  </div>
+  <!-- Footer Bottom End -->
+</footer>
+{{fn('do_shortcode', '[brb_collection id="361"]')}}
+<a href="/contact-us/" class="rd-footer__float btn btn-primary">CONTACT US</a>

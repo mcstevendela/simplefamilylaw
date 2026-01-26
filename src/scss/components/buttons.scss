@@ -1,0 +1,16 @@
+.btn {
+  font-family: 'ABeeZee';
+  @apply inline-block px-10 py-4 text-center leading-normal border transition-all;
+
+  &-primary {
+    @apply bg-maroon text-black border-maroon lg:hover:bg-para lg:hover:border-para lg:hover:text-white;
+  }
+
+  &-secondary {
+    @apply bg-grey border-grey text-black lg:hover:bg-maroon lg:hover:border-maroon;
+  }
+
+  &-tertiary {
+    @apply bg-white text-black border-white lg:hover:bg-transparent lg:hover:text-white;
+  }
+}

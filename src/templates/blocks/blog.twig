@@ -1,0 +1,69 @@
+{#
+  Title: Blog
+  Description: Blog block
+  postegory: Movingatease-blocks
+  Icon: welcome-write-blog
+  Keywords: services
+  Mode: edit
+  Align: left
+  PostTypes: page post
+  SupportsAlign: left right
+  SupportsMode: true
+  SupportsMultiple: true
+#}
+
+<section class="file-family-law-blog rd-spacing bg-white {{ block.className }}">
+
+	<div class="rd-container rd-card-main" style="padding-top: 0 !important;">
+		{# posts #}
+		{% set limit = fields.posts_per_view %}
+		{% set posts = {'category':category_id, 'numberposts':'-1'} %}
+		{# {% set posts = {'category':category_id, 'numberposts':'-1', 'posts_per_page': '6'} %} #}
+		{% for post in fn('get_posts', posts ) %}
+
+		{% set category_id = fields.blog.term_id %}
+		{% set link = fn('get_permalink', post.ID) %}
+		{% set thumbnail_url = fn('get_the_post_thumbnail_url', post.ID ) %}
+		<article class="px-4 mb-8">
+				<a href="{{ link }}">
+					<figure>
+						<img style="height: 300px; object-fit:cover;object-position:center;width: 100%;" src="{{ thumbnail_url }}"
+							alt="{{ post.post_title }}">
+					</figure>
+				</a>
+				<a href="{{ link }}">
+					<h3 class="text-2xl text-black mb-4">{{ post.post_title }}</h3>
+				</a>
+				<div class="button-wrapper text-primary fill-primary hover:text-sky-800 hover:fill-sky-800">
+					<a class="btn btn-primary rd-header-nav__button"
+						href="{{ link }}">READ MORE
+						</a>
+				</div>
+		</article>
+		{% endfor %}
+		<div class="tool-pagination">
+			{% if posts.pagination.prev %}
+			<a href="{{posts.pagination.prev.link}}"
+				class="prev {{posts.pagination.prev.link|length ? '' : 'invisible'}}">Prev</a>
+			{% endif %}
+			<ul class="pages">
+				{% for page in posts.pagination.pages %}
+				<li>
+					{% if page.link %}
+					<a href="{{page.link}}" class="{{page.class}}">{{page.title}}</a>
+					{% else %}
+					<span class="{{page.class}}">{{page.title}}</span>
+					{% endif %}
+				</li>
+				{% endfor %}
+			</ul>
+			{% if posts.pagination.next %}
+			<a href="{{posts.pagination.next.link}}"
+				class="next {{posts.pagination.next.link|length ? '' : 'invisible'}}">Next</a>
+			{% endif %}
+		</div>
+		{% if fields.button %}
+		<a href="{{fields.button.url}}" class="mx-auto btn btn-primary mt-10">{{fields.button.title}}</a>
+		{% endif %}
+	</div>
+</section>
