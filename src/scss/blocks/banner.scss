@@ -1,5 +1,5 @@
 .rd-banner {
-  @apply relative;
+  @apply relative overflow-hidden;
 
   &-home {
     @apply pt-[240px] pb-[140px];

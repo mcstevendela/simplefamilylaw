@@ -13,7 +13,7 @@
 }
 
 .rd-header {
-  @apply shadow-sm absolute top-0 left-0 w-full z-[999];
+  @apply shadow-sm absolute top-0 left-0 w-full z-[999] border-brown;
   border-bottom: 1px solid;
 
   & ul {
@@ -125,6 +125,16 @@
       @apply lg:block;
     }
 
+  }
+
+  &-btn {
+    @apply flex items-center;
+  }
+
+  &-cart {
+    &__icon {
+      @apply max-w-[42px] max-h-[42px] p-[10px] transition-all lg:hover:transform lg:hover:scale-125;
+    }
   }
 
   &-mobile {
