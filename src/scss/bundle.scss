@@ -18,4 +18,21 @@
 @import 'components/forms';
 @import 'components/wpadmin';
 @import 'components/slider';
-@import 'components/woo';
+
+@import 'components/header';
+@import 'components/footer';
+
+@import 'blocks/banner';
+@import 'blocks/media';
+@import 'blocks/card';
+@import 'blocks/cta';
+@import 'blocks/team';
+@import 'blocks/faq';
+@import 'blocks/logo';
+@import 'blocks/testimonial';
+@import 'blocks/form';
+@import 'blocks/flexible';
+@import 'blocks/about';
+@import 'blocks/inmedia.scss';
+
+@import 'core/core';
