@@ -1,14 +1,6 @@
 .rd-form {
   @apply relative py-[60px] lg:py-[96px];
 
-  &::before {
-
-  }
-
-  &::after {
-
-  }
-
   &-content {
     @apply relative z-[3];
   }

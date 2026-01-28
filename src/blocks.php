@@ -141,6 +141,16 @@ $blog = array(
   'keywords'        => array('blog'),
 );
 
+$material = array(
+  'name'            => 'material',
+  'title'           => __('Material', 'movingatease'),
+  'description'     => __('Material section.', 'rotatedigital.com'),
+  'render_callback' => 'my_acf_block_render_callback',
+  'category'        => 'movingatease-blocks',
+  'icon'            => 'format-video',
+  'keywords'        => array('material'),
+);
+
 $blocks = [
   $banner,
   $innerbanner,
@@ -155,6 +165,7 @@ $blocks = [
   $flexible,
   $inmedia,
   $about,
-  $blog
+  $blog,
+  $material,
 ];
 return $blocks;

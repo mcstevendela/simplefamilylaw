@@ -308,3 +308,50 @@ function set_admin_menu_separator() {
 		4   =>  'wp-menu-separator'
 	);
 }
+
+/**
+ * WordPress function for redirecting users on login based on user role
+ */
+
+function user_login_redirect( $url, $request, $user ){
+	if( $user && is_object( $user ) && is_a( $user, 'WP_User' ) ) {
+		if( $user->has_cap( 'subscriber' ) ) {
+			$url = home_url('/materials-member/');
+		};
+	}
+	return $url;
+}
+add_filter( 'login_redirect', 'user_login_redirect', 10, 3 );
+
+/**
+ * WordPress function for redirecting users on logout based on user role
+ */
+
+function user_logout_redirect(){
+	$user = wp_get_current_user();
+	if ( $user && is_object( $user ) && is_a( $user, 'WP_User' ) && $user->has_cap( 'subscriber' ) ) {
+		return home_url( '/materials/' );
+	}
+	return home_url();
+}
+
+function modify_logout_url( $logout_url ) {
+	$redirect = user_logout_redirect();
+	return add_query_arg( 'redirect_to', urlencode( $redirect ), $logout_url );
+}
+add_filter( 'logout_url', 'modify_logout_url' );
+
+/**
+ * WordPress function for redirecting users if they view the /materials/ page but already logged in on the site only for subscribers
+ */
+
+function redirect_materials_page() {
+	if ( is_page( 'materials' ) ) {
+		$user = wp_get_current_user();
+		if ( $user && is_object( $user ) && is_a( $user, 'WP_User' ) && $user->has_cap( 'subscriber' ) ) {
+			wp_redirect( home_url( '/materials-member/' ) );
+			exit;
+		}
+	}
+}
+add_action( 'template_redirect', 'redirect_materials_page' );

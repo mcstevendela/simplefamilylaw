@@ -1,0 +1,82 @@
+.pms {
+  &-form {
+    background-color: #c0b8b33b;
+    @apply p-10;
+
+    &-fields-wrapper {
+      margin-top: 0 !important;
+
+      & li::before {
+        @apply hidden;
+      }
+    }
+
+    & label {
+      @apply text-black font-normal mb-2 inline-block;
+    }
+
+    & input:not([type="submit"]):not([type="radio"]),
+    & textarea,
+    & select {
+      @apply rounded-none border-beige-border text-black p-4 leading-normal;
+
+      &::placeholder {
+        @apply text-brown;
+      }
+    }
+
+    &-submit,
+    & input[type="submit"] {
+      @apply bg-para cursor-pointer px-10 py-4 text-white hover:lg:bg-black transition-all mt-10 font-bold;
+    }
+  }
+
+  &-subscription-plan {
+    @apply mt-4;
+  }
+
+  &-account-subscription-details-table tr > td {
+    @apply py-1 px-4;
+  }
+
+  &-account-subscription-details-table tr > td:first-of-type {
+    @apply pl-0;
+  }
+
+  &-account-subscription-action-link {
+    @apply text-para underline font-semibold hover:lg:text-black;
+  }
+
+  &-account-navigation {
+    @apply pb-10;
+
+    & ul {
+      @apply gap-10 lg:gap-0;
+    }
+
+    & ul li::before {
+      @apply hidden;
+    }
+
+    &-link {
+      & a {
+        @apply bg-para cursor-pointer px-10 py-4 text-white hover:lg:bg-black transition-all;
+
+        &:hover {
+          color: #fff !important;
+        }
+      }
+
+      &--active {
+        background-color: #454444 !important;
+      }
+    }
+  }
+
+  &-table {
+    & th,
+    & td {
+      @apply border-beige-border p-4;
+    }
+  }
+}

@@ -88,6 +88,10 @@
   &-inner &__text {
     @apply text-center;
   }
+
+  &-btn {
+    @apply flex gap-4;
+  }
 }
 
 @media (max-width: 1023px) {

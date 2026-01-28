@@ -26,9 +26,14 @@
       {% if fields.description %}
         <p class="rd-banner__text">{{ fields.description }}</p>
       {% endif %}
-      {% if fields.button %}
-        <a href="{{ fields.button.url }}" target="{{ fields.button.target }}" class="rd-banner__button btn btn-primary">{{ fields.button.title }}</a>
-      {% endif %}
+      <div class="rd-banner-btn">
+        {% if fields.button %}
+          <a href="{{ fields.button.url }}" target="{{ fields.button.target }}" class="rd-banner__button btn btn-primary">{{ fields.button.title }}</a>
+        {% endif %}
+        {% if fields.button_two %}
+          <a href="{{ fields.button_two.url }}" target="{{ fields.button_two.target }}" class="rd-banner__button btn btn-primary">{{ fields.button_two.title }}</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>

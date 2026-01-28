@@ -2,7 +2,7 @@
 function rd_custom_post_types_register() {
 
   $post_types = [
-    'practice-areas' => [
+    /*'practice-areas' => [
       'supports' => [ 'title', 'revisions', 'editor', 'author', 'excerpt', 'thumbnail' ],
       'public' => true,
       'show_in_rest' => true,
@@ -10,7 +10,7 @@ function rd_custom_post_types_register() {
       'menu_position' => 5,
       'show_in_menu' => true,
       'menu_icon' => 'dashicons-networking',
-  'rewrite' => [ 'slug' => 'service-areas', 'with_front' => false ],
+      'rewrite' => [ 'slug' => 'service-areas', 'with_front' => false ],
       'labels' => [
         'name' => 'Practice Areas',
         'singular_name' => 'Practice Areas',
@@ -38,7 +38,7 @@ function rd_custom_post_types_register() {
         'item_scheduled' => 'Practice Areas scheduled',
         'item_updated' => 'Practice Areas updated',
       ],
-    ],
+    ],*/
     'services' => [
       'supports' => [ 'title', 'revisions', 'editor', 'author', 'excerpt', 'thumbnail' ],
       'public' => true,
@@ -47,7 +47,7 @@ function rd_custom_post_types_register() {
       'menu_position' => 5,
       'show_in_menu' => true,
       'menu_icon' => 'dashicons-clipboard',
-  'rewrite' => [ 'slug' => 'document-preparation', 'with_front' => false ],
+      'rewrite' => [ 'slug' => 'document-preparation', 'with_front' => false ],
       'labels' => [
         'name' => 'Services',
         'singular_name' => 'Services',
@@ -74,6 +74,43 @@ function rd_custom_post_types_register() {
         'item_reverted_to_draft' => 'Services reverted to draft',
         'item_scheduled' => 'Services scheduled',
         'item_updated' => 'Services updated',
+      ],
+    ],
+    'materials' => [
+      'supports' => [ 'title', 'revisions', 'editor', 'author', 'excerpt', 'thumbnail' ],
+      'public' => true,
+      'show_in_rest' => true,
+      'has_archive' => false,
+      'menu_position' => 5,
+      'show_in_menu' => true,
+      'menu_icon' => 'dashicons-networking',
+      'rewrite' => [ 'slug' => 'materials', 'with_front' => false ],
+      'labels' => [
+        'name' => 'Materials',
+        'singular_name' => 'Materials',
+        'add_new' => 'Add New Materials',
+        'add_new_item' => 'Add New Materials',
+        'edit_item' => 'Edit Materials',
+        'new_item' => 'New Materials',
+        'view_item' => 'View Materials',
+        'view_items' => 'View Materials',
+        'search_items' => 'Search Materials',
+        'not_found' => 'No Materials found',
+        'not_found_in_trash' => 'No Materials found in trash',
+        'parent_item_colon' => 'Parent Materials',
+        'all_items' => 'All Materials',
+        'archives' => 'Materials Archives',
+        'attributes' => 'Materials Attributes',
+        'insert_into_item' => 'Insert into Materials',
+        'uploaded_to_this_item' => 'Uploaded to this Materials',
+        'filter_items_list' => 'Filter Materials list',
+        'items_list_navigation' => 'Materials list navigation',
+        'items_list' => 'Materials list',
+        'item_published' => 'Materials published',
+        'item_published_privately' => 'Materials published privately',
+        'item_reverted_to_draft' => 'Materials reverted to draft',
+        'item_scheduled' => 'Materials scheduled',
+        'item_updated' => 'Materials updated',
       ],
     ],
   ];
