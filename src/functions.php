@@ -73,6 +73,7 @@ class StarterSite extends Timber\Site {
 		add_filter('timber_context', array($this, 'add_to_context'));
 		add_filter('timber_context',  array($this, 'global_info'));
 		add_filter('timber_context',  array($this, 'areas'));
+		add_filter('timber/twig', array($this, 'add_to_twig'));
 		add_action('init', array($this, 'register_post_types'));
 		add_action('init', array($this, 'register_taxonomies'));
 		add_filter('screen_options_show_screen', '__return_true');
@@ -122,6 +123,9 @@ class StarterSite extends Timber\Site {
 	public function add_to_twig( $twig ) {
 		$twig->addExtension( new Twig\Extension\StringLoaderExtension() );
 		$twig->addFilter( new Twig\TwigFilter( 'myfoo', array( $this, 'myfoo' ) ) );
+		$twig->addFunction( new Twig\TwigFunction( 'get_permalink', function( $post ) {
+			return get_permalink( $post );
+		} ) );
 		return $twig;
 	}
 }

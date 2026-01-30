@@ -1,0 +1,76 @@
+{#
+  Title: Material
+  Description: Material block
+  Category: RD-blocks
+  Icon: video
+  Keywords: team
+  Mode: edit
+  Align: left
+  PostTypes: page post
+  SupportsAlign: left right
+  SupportsMode: true
+  SupportsMultiple: true
+#}
+
+<section class="rd-block rd-spacing rd-material">
+  <div class="rd-container rd-material-container">
+    <!-- Main -->
+    <div class="rd-material-main">
+      <!-- Video -->
+      <div class="rd-material-video">
+        {% if fields.video_link %}
+          <div class="rd-material-video-wrapper">
+            {% set url = fields.video_link %}
+            
+            {# YouTube Video #}
+            {% if 'youtube.com' in url or 'youtu.be' in url %}
+              {% if 'youtu.be' in url %}
+                {% set video_id = url|split('youtu.be/')|last|split('?')|first %}
+              {% else %}
+                {% set video_id = url|split('v=')|last|split('&')|first %}
+              {% endif %}
+              <iframe width="100%" src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            
+            {# Vimeo Video #}
+            {% elseif 'vimeo.com' in url %}
+              {% set video_id = url|split('vimeo.com/')|last|split('?')|first %}
+              <iframe src="https://player.vimeo.com/video/{{ video_id }}" width="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            
+            {# Direct embed URL #}
+            {% else %}
+              <iframe width="100%" src="{{ url }}" frameborder="0" allowfullscreen></iframe>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      <!-- Video -->
+      <!-- Heading -->
+      {% if fields.title %}
+        <h2 class="rd-material-heading">{{ fields.title }}</h2>
+      {% endif %}
+      <!-- Heading -->
+      <!-- Transcript -->
+      {% if fields.video_transcript %}
+        <span class="rd-material-transcript__label">Video Transcript</span>
+        <div class="rd-material-transcript">
+          
+          {{ fields.video_transcript }}
+        </div>
+      {% endif %}
+    </div>
+    <!-- Main -->
+    <!-- Sidebar -->
+    <div class="rd-material-sidebar">
+      <span class="rd-material-sidebar__heading">Documents</span>
+      {% for item in fields.documents %}
+        {% if item %}
+          <a href="{{ get_permalink(item) }}" class="rd-material-document__link" target="_blank" rel="noopener noreferrer">
+            <img src="{{ site.url }}/wp-content/themes/simplefamilylaw/images/icons/pdf-file.png" alt="PDF - {{ item.post_title }}" class="rd-material-document__icon">
+            <span class="rd-material-document__title">{{ item.post_title }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <!-- Sidebar -->
+  </div>
+</section>
