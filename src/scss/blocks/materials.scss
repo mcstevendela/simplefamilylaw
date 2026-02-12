@@ -7,6 +7,14 @@
     @apply w-full lg:flex-1;
   }
 
+  &__title {
+    @apply mt-0 text-2xl lg:text-3xl;
+  }
+
+  &__button {
+    @apply mt-5;
+  }
+
   &-video {
     & iframe {
       @apply h-[300px] md:h-[420px] lg:h-[450px];
@@ -18,10 +26,10 @@
   }
 
   &-transcript {
-    @apply max-h-72 overflow-y-auto lg:max-h-full mb-6 p-4 border border-para lg:border-none lg:p-0 lg:pl-4;
+    @apply max-h-72 overflow-y-auto lg:max-h-full mb-6 p-4 border border-para lg:border-none lg:p-0 lg:pl-5;
 
     &__label {
-      @apply inline-block mb-4 lg:mb-2 font-semibold;
+      @apply block mt-10 mb-0 font-semibold;
     }
   }
 

@@ -74,7 +74,7 @@
   }
 
   &-inner {
-    @apply pt-[240px] pb-[140px];
+    @apply pt-[240px] pb-[140px] overflow-hidden;
   }
 
   &-inner &-content {
@@ -82,11 +82,11 @@
   }
 
   &-inner &__title {
-    @apply mt-0 text-center;
+    @apply mt-0 mb-0 text-center;
   }
 
   &-inner &__text {
-    @apply text-center;
+    @apply mt-5 lg:mt-[30px] text-center;
   }
 
   &-btn {

@@ -210,7 +210,7 @@ if (function_exists('acf_add_options_page')) {
 function acf_wysiwyg_remove_wpautop() {
 	// remove p tags //
 	remove_filter ('the_content', 'wpautop');
-remove_filter('the_content', 'wptexturize');
+	remove_filter('the_content', 'wptexturize');
 	// add line breaks before all newlines //
   }
   add_action('acf/init', 'acf_wysiwyg_remove_wpautop');
@@ -280,18 +280,22 @@ add_action( 'acf/init', 'block_acf_init' );
 
 function my_acf_block_render_callback( $block, $innerblock, $content = '', $is_preview = false ) {
     $context = Timber::context();
+		$current_post_id = get_the_ID();
+		if ( ! $current_post_id ) {
+			$current_post_id = get_queried_object_id();
+		}
     // Store block values.
     $context['block'] = $block;
     // Store field values.
     $context['fields'] = get_fields();
+		$context['current_post_id'] = $current_post_id;
+		$context['user_logged_in'] = is_user_logged_in();
+		$context['logout_url'] = wp_logout_url();
     // Store $is_preview value.
     $context['is_preview'] = $is_preview;
-		//var_dump(str_replace(' ', '_', strtolower($block['title'])));
     // Render the block.
     Timber::render( 'templates/blocks/' . str_replace('acf/', '', strtolower($block['name'])) . '.twig', $context );
 }
-
-
 
 // Erase Comment Menu
 add_action( 'admin_init', 'my_remove_admin_menus' );
@@ -312,50 +316,3 @@ function set_admin_menu_separator() {
 		4   =>  'wp-menu-separator'
 	);
 }
-
-/**
- * WordPress function for redirecting users on login based on user role
- */
-
-function user_login_redirect( $url, $request, $user ){
-	if( $user && is_object( $user ) && is_a( $user, 'WP_User' ) ) {
-		if( $user->has_cap( 'subscriber' ) ) {
-			$url = home_url('/materials-member/');
-		};
-	}
-	return $url;
-}
-add_filter( 'login_redirect', 'user_login_redirect', 10, 3 );
-
-/**
- * WordPress function for redirecting users on logout based on user role
- */
-
-function user_logout_redirect(){
-	$user = wp_get_current_user();
-	if ( $user && is_object( $user ) && is_a( $user, 'WP_User' ) && $user->has_cap( 'subscriber' ) ) {
-		return home_url( '/materials/' );
-	}
-	return home_url();
-}
-
-function modify_logout_url( $logout_url ) {
-	$redirect = user_logout_redirect();
-	return add_query_arg( 'redirect_to', urlencode( $redirect ), $logout_url );
-}
-add_filter( 'logout_url', 'modify_logout_url' );
-
-/**
- * WordPress function for redirecting users if they view the /materials/ page but already logged in on the site only for subscribers
- */
-
-function redirect_materials_page() {
-	if ( is_page( 'materials' ) ) {
-		$user = wp_get_current_user();
-		if ( $user && is_object( $user ) && is_a( $user, 'WP_User' ) && $user->has_cap( 'subscriber' ) ) {
-			wp_redirect( home_url( '/materials-member/' ) );
-			exit;
-		}
-	}
-}
-add_action( 'template_redirect', 'redirect_materials_page' );

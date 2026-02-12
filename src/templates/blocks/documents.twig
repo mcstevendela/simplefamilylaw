@@ -14,13 +14,20 @@
 
 <section class="rd-block rd-spacing rd-material">
   <div class="rd-container rd-material-container">
+    <!-- Loop to documents -->
+    {% set document = fields.documents[0] %}
     <!-- Main -->
     <div class="rd-material-main">
+      <!-- Heading -->
+      {% if document.document_title %}
+        <h2 class="rd-material__title">{{ document.document_title }}</h2>
+      {% endif %}
+      <!-- Heading -->
       <!-- Video -->
       <div class="rd-material-video">
-        {% if fields.video_link %}
+        {% if document.video_link %}
           <div class="rd-material-video-wrapper">
-            {% set url = fields.video_link %}
+            {% set url = document.video_link %}
             
             {# YouTube Video #}
             {% if 'youtube.com' in url or 'youtu.be' in url %}
@@ -44,32 +51,42 @@
         {% endif %}
       </div>
       <!-- Video -->
-      <!-- Heading -->
-      {% if fields.title %}
-        <h2 class="rd-material-heading">{{ fields.title }}</h2>
+      <!-- Button -->
+      {% if document.form_link %}
+        <a href="{{ document.form_link.url }}" target="_blank" class="rd-material__button btn btn-primary">Fill out the Document</a>
       {% endif %}
-      <!-- Heading -->
+      <!-- Button -->
       <!-- Transcript -->
-      {% if fields.video_transcript %}
+      {% if document.video_transcript %}
         <span class="rd-material-transcript__label">Video Transcript</span>
         <div class="rd-material-transcript">
-          
-          {{ fields.video_transcript }}
+          {{ document.video_transcript }}
         </div>
       {% endif %}
     </div>
     <!-- Main -->
     <!-- Sidebar -->
     <div class="rd-material-sidebar">
-      <span class="rd-material-sidebar__heading">Documents</span>
-      {% for item in fields.documents %}
-        {% if item %}
-          <a href="{{ get_permalink(item) }}" class="rd-material-document__link" target="_blank" rel="noopener noreferrer">
-            <img src="{{ site.url }}/wp-content/themes/simplefamilylaw/images/icons/pdf-file.png" alt="PDF - {{ item.post_title }}" class="rd-material-document__icon">
-            <span class="rd-material-document__title">{{ item.post_title }}</span>
-          </a>
-        {% endif %}
-      {% endfor %}
+      <span class="rd-material-sidebar__heading">Documents Navigation</span>
+      {% if fields.documents %}
+        <div class="rd-material-sidebar-nav">
+          {% for item in fields.documents %}
+            <a
+              href=""
+              class="rd-material-document__link"
+              target="_blank"
+              rel="noopener noreferrer"
+              formlink="{{ item.form_link.url }}"
+              videotitle="{{ item.document_title }}"
+              videolink="{{ item.video_link }}"
+              videotranscript="{{ item.video_transcript }}"
+            >
+                <img src="{{ site.url }}/wp-content/themes/simplefamilylaw/images/icons/pdf-file.png" alt="PDF - {{ item.document_title }}" class="rd-material-document__icon">
+                <span class="rd-material-document__title">{{ item.document_title }}</span>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
     <!-- Sidebar -->
   </div>

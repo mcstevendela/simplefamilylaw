@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   mobileMenu();
   accordion();
   smoothScroll();
+  documentsNavigation();
 });
 
 const convertImages = (query, callback) => {
@@ -101,6 +102,95 @@ function smoothScroll(offset = 160) {
           behavior: 'smooth'
         });
       }
+    });
+  });
+}
+
+function documentsNavigation() {
+  const materialBlocks = document.querySelectorAll('.rd-material');
+
+  if (!materialBlocks.length) {
+    return;
+  }
+
+  const toEmbedUrl = (url) => {
+    if (!url) {
+      return '';
+    }
+
+    const value = url.trim();
+
+    if (value.includes('youtu.be/')) {
+      const videoId = value.split('youtu.be/').pop().split('?')[0];
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    if (value.includes('youtube.com')) {
+      const videoId = value.includes('v=') ? value.split('v=').pop().split('&')[0] : '';
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : value;
+    }
+
+    if (value.includes('vimeo.com/')) {
+      const videoId = value.split('vimeo.com/').pop().split('?')[0];
+      return `https://player.vimeo.com/video/${videoId}`;
+    }
+
+    return value;
+  };
+
+  materialBlocks.forEach((block) => {
+    const links = block.querySelectorAll('.rd-material-document__link');
+    if (!links.length) {
+      return;
+    }
+
+    const setActiveLink = (activeLink) => {
+      links.forEach((item) => item.classList.remove('active'));
+      activeLink.classList.add('active');
+    };
+
+    setActiveLink(links[0]);
+
+    links.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        setActiveLink(link);
+
+        const videoTitle = link.getAttribute('videotitle') || '';
+        const formLink = link.getAttribute('formlink') || '';
+        const videoLink = link.getAttribute('videolink') || '';
+        const videoTranscript = link.getAttribute('videotranscript') || '';
+
+        const videoWrapper = block.querySelector('.rd-material-video-wrapper');
+        if (videoWrapper) {
+          let iframe = videoWrapper.querySelector('iframe');
+          if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.setAttribute('width', '100%');
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allowfullscreen', '');
+            videoWrapper.innerHTML = '';
+            videoWrapper.appendChild(iframe);
+          }
+
+          iframe.setAttribute('src', toEmbedUrl(videoLink));
+        }
+
+        const formButton = block.querySelector('.rd-material__button');
+        if (formButton && formLink) {
+          formButton.setAttribute('href', formLink);
+        }
+
+        const transcript = block.querySelector('.rd-material-transcript');
+        if (transcript) {
+          transcript.innerHTML = videoTranscript;
+        }
+
+        const title = block.querySelector('.rd-material__title');
+        if (title) {
+          title.innerHTML = videoTitle;
+        }
+      });
     });
   });
 }

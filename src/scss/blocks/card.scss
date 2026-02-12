@@ -13,20 +13,7 @@
   }
 
   &-item {
-    @apply relative border border-grey transition-all;
-
-    &:nth-child(1){
-      border-width: 1px 1px 0px 1px;
-    }
-    &:nth-child(2){
-      border-width: 1px 0px 0px 0px;
-    }
-    &:nth-child(3){
-      border-width: 1px 1px 0px 1px;
-    }
-    &:nth-child(5) {
-      border-width: 1px 0px 1px 0px;
-    }
+    @apply relative border-[0.5px] border-grey transition-all;
 
     &::before {
       content: "";

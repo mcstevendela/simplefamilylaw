@@ -26,14 +26,28 @@
       {% if fields.description %}
         <p class="rd-banner__text">{{ fields.description }}</p>
       {% endif %}
-      <div class="rd-banner-btn">
-        {% if fields.button %}
-          <a href="{{ fields.button.url }}" target="{{ fields.button.target }}" class="rd-banner__button btn btn-primary">{{ fields.button.title }}</a>
-        {% endif %}
-        {% if fields.button_two %}
-          <a href="{{ fields.button_two.url }}" target="{{ fields.button_two.target }}" class="rd-banner__button btn btn-primary">{{ fields.button_two.title }}</a>
-        {% endif %}
-      </div>
+      {% set is_materials_page = current_post_id == 1684 %}
+      {% if is_materials_page or fields.button or fields.button_two %}
+        <div class="rd-banner-btn">
+          {% if is_materials_page %}
+            <!-- Special content for materials page -->
+            {% if user_logged_in %}
+              <a href="{{ logout_url }}" target="_self" class="rd-banner__button btn btn-primary">Logout</a>
+            {% else %}
+              <a href="/login/" target="_self" class="rd-banner__button btn btn-primary">Login</a>
+              <a href="/registration/" target="_self" class="rd-banner__button btn btn-primary">Subscribe</a>
+            {% endif %}
+          {% else %}
+            <!-- Default Post -->
+            {% if fields.button %}
+              <a href="{{ fields.button.url }}" target="{{ fields.button.target }}" class="rd-banner__button btn btn-primary">{{ fields.button.title }}</a>
+            {% endif %}
+            {% if fields.button_two %}
+              <a href="{{ fields.button_two.url }}" target="{{ fields.button_two.target }}" class="rd-banner__button btn btn-primary">{{ fields.button_two.title }}</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
     </div>
   </div>
 </section>

@@ -133,22 +133,22 @@ $about = array(
 
 $blog = array(
   'name'            => 'blog',
-  'title'           => __('Blog', 'movingatease'),
+  'title'           => __('Blog', 'rd'),
   'description'     => __('Blog section.', 'rotatedigital.com'),
   'render_callback' => 'my_acf_block_render_callback',
-  'category'        => 'movingatease-blocks',
+  'category'        => 'rd-blocks',
   'icon'            => 'welcome-write-blog',
   'keywords'        => array('blog'),
 );
 
-$material = array(
-  'name'            => 'material',
-  'title'           => __('Material', 'movingatease'),
-  'description'     => __('Material section.', 'rotatedigital.com'),
+$documents = array(
+  'name'            => 'documents',
+  'title'           => __('Documents', 'rd'),
+  'description'     => __('Documents section.', 'rotatedigital.com'),
   'render_callback' => 'my_acf_block_render_callback',
-  'category'        => 'movingatease-blocks',
+  'category'        => 'rd-blocks',
   'icon'            => 'format-video',
-  'keywords'        => array('material'),
+  'keywords'        => array('documents'),
 );
 
 $blocks = [
@@ -166,6 +166,6 @@ $blocks = [
   $inmedia,
   $about,
   $blog,
-  $material,
+  $documents,
 ];
 return $blocks;
