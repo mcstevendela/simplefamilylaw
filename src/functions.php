@@ -280,18 +280,26 @@ add_action( 'acf/init', 'block_acf_init' );
 
 function my_acf_block_render_callback( $block, $innerblock, $content = '', $is_preview = false ) {
     $context = Timber::context();
+		//Get the object of the current post
 		$current_post_id = get_the_ID();
 		if ( ! $current_post_id ) {
 			$current_post_id = get_queried_object_id();
 		}
+
     // Store block values.
     $context['block'] = $block;
-    // Store field values.
     $context['fields'] = get_fields();
 		$context['current_post_id'] = $current_post_id;
 		$context['user_logged_in'] = is_user_logged_in();
 		$context['logout_url'] = wp_logout_url();
-    // Store $is_preview value.
+		
+		if ( is_user_logged_in() ) {
+				$user_id = get_current_user_id();
+				$member = pms_get_member( $user_id );
+				$context['membership_plan'] = $member->subscriptions[0]['subscription_plan_id'];
+				$context['membership_status'] = $member->subscriptions[0]['status'];
+		}
+				
     $context['is_preview'] = $is_preview;
     // Render the block.
     Timber::render( 'templates/blocks/' . str_replace('acf/', '', strtolower($block['name'])) . '.twig', $context );
@@ -316,3 +324,23 @@ function set_admin_menu_separator() {
 		4   =>  'wp-menu-separator'
 	);
 }
+
+// Add if the user is accessing this page = 1684 or is a single document post type but not logged in, redirect to login page
+function redirect_to_login_if_not_logged_in() {
+	//If user if logged out but accessing subscription documents
+	if ( !is_user_logged_in() && ( is_page( 1684 ) || (is_singular( 'documents' ) ) ) ) {
+		wp_redirect('/login/');
+		exit;
+	//If user is logged in but accessing subscription documents, check if they have an active subscription, if not redirect to login page
+	} else if ( is_user_logged_in() && ( is_page( 1684 ) || (is_singular( 'documents' ) ) ) ) {
+		$user_id = get_current_user_id();
+		$member = pms_get_member( $user_id );
+		$subscription_status = pms_get_member_subscription($member->subscriptions[0]['id']);
+
+		if ( $subscription_status->status != 'active' ) {
+			wp_redirect('/update-payment/');
+			exit;
+		}
+	}
+}
+add_action( 'template_redirect', 'redirect_to_login_if_not_logged_in' );

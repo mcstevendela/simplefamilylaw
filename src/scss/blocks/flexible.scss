@@ -7,12 +7,6 @@
     @apply my-[30px] lg:my-[60px];
   }
 
-  &-main {
-    & *:last-child {
-      @apply mb-0;
-    }
-  }
-
   &-content {
     & a, & a span {
       @apply underline;
@@ -21,6 +15,22 @@
       &:hover {
         @apply text-black;
       }
+    }
+  }
+
+  .fluentform {
+    font-family: 'ABeeZee' !important;
+
+    .ff-el-group.ff_list_buttons .ff-el-form-check label>span:hover {
+      @apply text-para;
+    }
+
+    .ff-el-group.ff_list_buttons .ff-el-form-check.ff_item_selected label>span {
+      @apply bg-para border-para text-white;
+    }
+
+    .ff_submit_btn_wrapper {
+      @apply bg-none border-none p-0;
     }
   }
 }

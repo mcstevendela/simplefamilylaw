@@ -84,9 +84,8 @@
 }
 
 .ff-default .ff-btn-secondary:not(.ff_btn_no_style),
-.ff_submit_btn_wrapper{
-  @apply inline-block px-10 py-4 text-center leading-normal border transition-all;
-  @apply bg-maroon text-black border-maroon lg:hover:bg-para lg:hover:border-para lg:hover:text-white;
+.ff-btn-submit {
+  @apply inline-block px-10 py-4 text-center leading-normal transition-all bg-grey border-grey text-black lg:hover:bg-maroon lg:hover:border-maroon;
 }
 
 .rd-block.rd-form .rd-form__title{
