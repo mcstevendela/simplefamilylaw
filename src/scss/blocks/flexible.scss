@@ -32,5 +32,14 @@
     .ff_submit_btn_wrapper {
       @apply bg-none border-none p-0;
     }
+
+    .ff-message-success {
+      box-shadow: none;
+      border: none;
+
+      p {
+        margin: 0;
+      }
+    }
   }
 }
