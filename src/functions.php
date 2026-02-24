@@ -344,3 +344,14 @@ function redirect_to_login_if_not_logged_in() {
 	}
 }
 add_action( 'template_redirect', 'redirect_to_login_if_not_logged_in' );
+
+// Removing Reviews Bundle plugin's upgrade notification
+add_action('admin_head', 'remove_annoying_notification');
+function remove_annoying_notification()
+{
+	echo '<style>
+    .notice.notice-error.is-dismissible {
+      display: none!important;
+    }
+  </style>';
+}

@@ -11,6 +11,6 @@
   }
 
   &-tertiary {
-    @apply bg-white text-black border-white lg:hover:bg-transparent lg:hover:text-white;
+    @apply bg-white text-black lg:hover:border-black lg:hover:bg-black lg:hover:text-white;
   }
 }

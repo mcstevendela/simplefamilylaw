@@ -14,14 +14,14 @@
 
 .rd-header {
   @apply shadow-sm absolute top-0 left-0 w-full z-[999];
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #B8D0D2;
 
   & ul {
     @apply pl-0 my-0;
 
     & li{
       @apply flex flex-col justify-center pr-8;
-      border-right: 1px solid;
+      border-right: 1px solid #B8D0D2;
     }
 
     & li::before {

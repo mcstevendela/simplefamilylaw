@@ -19,14 +19,14 @@ module.exports = {
     },
     extend: {
       colors: {
-        'maroon': '#c0b8b4',
+        'maroon': '#B8D0D2',
         'beige': '#F9F4EC',
         'grey': '#E4E4E4',
         'beige-border': '#E3DCD1',
-        'para': '#626B71',
-        'black': '#454444',
+        'para': '#000',
+        'black': '#000',
         'blackfull': '#000',
-        'brown': '#7E7B76',
+        'brown': '#000',
         'orange': '#FF8800',
         'white30': 'rgba(255, 255, 255, 0.3)',
         'white12': 'rgba(255, 255, 255, 0.12)',

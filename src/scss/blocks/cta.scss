@@ -4,11 +4,11 @@
 
     &::before {
       content: "";
-      background: linear-gradient(180deg, #c0b8b4 -0.01%, #c0b8b4 47.59%, rgba(192, 184, 180, 100) 54.54%, rgba(192, 184, 180, 0) 99.99%);
+      background: linear-gradient(180deg, #B8D0D2 -0.01%, #B8D0D2 47.59%, rgba(184, 208, 210, 100) 54.54%, rgba(184, 208, 210, 0) 99.99%);
       @apply absolute top-0 left-0 w-full h-full z-[2];
 
       @screen lg {
-        background: linear-gradient(90deg, #c0b8b4 0%, #c0b8b4 49.5%, rgba(192, 184, 180, 0.94) 56.33%, rgba(192, 184, 180, 0.1) 64.75%, rgba(192, 184, 180, 0) 100%);
+        background: linear-gradient(90deg, #B8D0D2 0%, #B8D0D2 49.5%, rgba(184, 208, 210, 0.94) 56.33%, rgba(184, 208, 210, 0.1) 64.75%, rgba(184, 208, 210, 0) 100%);
       }
     }
   }
