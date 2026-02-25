@@ -10,7 +10,7 @@ function rd_custom_post_types_register() {
       'menu_position' => 5,
       'show_in_menu' => true,
       'menu_icon' => 'dashicons-clipboard',
-      'rewrite' => [ 'slug' => 'services', 'with_front' => false ],
+      'rewrite' => false,
       'labels' => [
         'name' => 'Services',
         'singular_name' => 'Service',

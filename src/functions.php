@@ -162,6 +162,41 @@ function disable_emojis() {
 add_action( 'init', 'disable_emojis' );
 
 /**
+ * Custom rewrite rule for services post type to remove /services/ prefix
+ */
+function add_services_rewrite_rules() {
+	add_rewrite_rule(
+		'^([^/]+)/?$',
+		'index.php?name=$matches[1]&post_type=services',
+		'top'
+	);
+}
+add_action( 'init', 'add_services_rewrite_rules' );
+
+/**
+ * Redirect old /services/slug URLs to new /slug format
+ */
+function redirect_services_url() {
+	if ( is_404() ) {
+		$request_uri = trim( $_SERVER['REQUEST_URI'], '/' );
+		
+		// Check if URL starts with /services/
+		if ( strpos( $request_uri, 'services/' ) === 0 ) {
+			$slug = str_replace( 'services/', '', $request_uri );
+			
+			// Get the service post by slug
+			$service = get_page_by_path( $slug, OBJECT, 'services' );
+			
+			if ( $service ) {
+				wp_redirect( get_permalink( $service ), 301 );
+				exit;
+			}
+		}
+	}
+}
+add_action( 'template_redirect', 'redirect_services_url' );
+
+/**
  * Filter out the tinymce emoji plugin.
  */
 function disable_emojis_tinymce( $plugins ) {
@@ -355,3 +390,4 @@ function remove_annoying_notification()
     }
   </style>';
 }
+
