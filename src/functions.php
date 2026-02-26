@@ -76,10 +76,16 @@ class StarterSite extends Timber\Site {
 		$context['notes'] = 'These values are available everytime you call Timber::context();';
 		$context['menu'] = new Timber\Menu( 'Main menu' );
 		$context['site'] = $this;
+
+		$current_post_id = get_the_ID();
+		if ( ! $current_post_id ) {
+			$current_post_id = get_queried_object_id();
+		}
+
 		$context['current_post_id'] = $current_post_id;
 		$context['user_logged_in'] = is_user_logged_in();
 		$context['logout_url'] = wp_logout_url();
-		
+
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
 			$member = pms_get_member( $user_id );
@@ -214,10 +220,6 @@ add_action( 'acf/init', 'block_acf_init' );
 
 function my_acf_block_render_callback( $block, $innerblock, $content = '', $is_preview = false ) {
 	$context = Timber::context();
-	$current_post_id = get_the_ID();
-	if ( ! $current_post_id ) {
-		$current_post_id = get_queried_object_id();
-	}
 
 	$context['block'] = $block;
 	$context['fields'] = get_fields();
