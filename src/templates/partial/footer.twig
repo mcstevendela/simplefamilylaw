@@ -101,5 +101,7 @@
   </div>
   <!-- Footer Bottom End -->
 </footer>
-{{fn('do_shortcode', '[brb_collection id="361"]')}}
-<a href="/contact-us/" class="rd-footer__float btn btn-primary">CONTACT US</a>
+
+{% if not user_logged_in %}
+  <a href="/registration/" class="rd-footer__float btn btn-primary">Subscribe</a>
+{% endif %}

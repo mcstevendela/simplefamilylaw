@@ -18,6 +18,12 @@
     }
   }
 
+  &-main {
+    & > *:last-child {
+      @apply mb-0;
+    }
+  }
+
   .fluentform {
     font-family: 'ABeeZee' !important;
 

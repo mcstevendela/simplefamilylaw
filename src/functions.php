@@ -2,32 +2,13 @@
 
 require_once 'includes/index.php';
 
-/**
- * Timber starter-theme
- * https://github.com/timber/starter-theme
- *
- * @package  WordPress
- * @subpackage  Timber
- * @since   Timber 0.1
- */
-
-/**
- * If you are installing Timber as a Composer dependency in your theme, you'll need this block
- * to load your dependencies and initialize Timber. If you are using Timber via the WordPress.org
- * plug-in, you can safely delete this block.
- */
 $composer_autoload = __DIR__ . '/vendor/autoload.php';
 if ( file_exists( $composer_autoload ) ) {
 	require_once $composer_autoload;
 	$timber = new Timber\Timber();
 }
 
-/**
- * This ensures that Timber is loaded and available as a PHP class.
- * If not, it gives an error message to help direct developers on where to activate
- */
 if ( ! class_exists( 'Timber' ) ) {
-
 	add_action(
 		'admin_notices',
 		function() {
@@ -44,82 +25,71 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
-/**
- * Sets the directories (inside your theme) to find .twig files
- */
 Timber::$dirname = array( 'templates', 'views' );
-
-/**
- * By default, Timber does NOT autoescape values. Want to enable Twig's autoescape?
- * No prob! Just set this value to true
- */
 Timber::$autoescape = false;
 
-
-/**
- * We're going to configure our theme inside of a subclass of Timber\Site
- * You can move this to its own file and include here via php's include("MySite.php")
- */
 class StarterSite extends Timber\Site {
-	/** Add timber support. */
 	public function __construct() {
 		add_theme_support( 'post-formats', array( 'aside', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video', 'audio','post-thumbnails' ) );
 		add_theme_support( 'title-tag' );
-		add_theme_support('menus');
-		add_theme_support( 'post-thumbnails' ); 
-		add_theme_support('widgets');
-		add_theme_support('html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'editor-styles'));
+		add_theme_support( 'menus' );
+		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'widgets' );
+		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'editor-styles' ) );
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
-		add_filter('timber_context', array($this, 'add_to_context'));
-		add_filter('timber_context',  array($this, 'global_info'));
-		add_filter('timber_context',  array($this, 'areas'));
-		add_filter('timber/twig', array($this, 'add_to_twig'));
-		add_action('init', array($this, 'register_post_types'));
-		add_action('init', array($this, 'register_taxonomies'));
-		add_filter('screen_options_show_screen', '__return_true');
+		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
+		add_filter( 'timber_context', array( $this, 'global_info' ) );
+		add_filter( 'timber_context', array( $this, 'areas' ) );
+		add_filter( 'timber/twig', array( $this, 'add_to_twig' ) );
+		add_action( 'init', array( $this, 'register_post_types' ) );
+		add_action( 'init', array( $this, 'register_taxonomies' ) );
+		add_filter( 'screen_options_show_screen', '__return_true' );
 		parent::__construct();
 	}
-	
-	/** This is where you can register custom post types. */
+
 	public function register_post_types() {
 	}
-	/** This is where you can register custom taxonomies. */
+
 	public function register_taxonomies() {
 	}
-	function areas( $context ) {
-		$context['areas'] = get_posts('areas');
-		return $context;
-	}
-	function global_info( $context ) {
-		$context['global'] = get_fields('option');
-		$context['header'] = get_fields('option');
-		$context['footer'] = get_fields('option');
+
+	public function areas( $context ) {
+		$context['areas'] = get_posts( 'areas' );
 		return $context;
 	}
 
-	/** This is where you add some context
-	 *
-	 * @param string $context context['this'] Being the Twig's {{ this }}.
-	 */
+	public function global_info( $context ) {
+		$context['global'] = get_fields( 'option' );
+		$context['header'] = get_fields( 'option' );
+		$context['footer'] = get_fields( 'option' );
+		return $context;
+	}
+
 	public function add_to_context( $context ) {
-		$context['primary'] = get_field('global.color_scheme.colors[0].color.color_value');
-		//adding global option page
-		$context['global'] = get_field('global', 'options'); //adding global option page
-		$context['topbar'] = get_field('topbar', 'options'); //adding topbar option page
-		$context['header'] = get_field('header', 'options'); //adding header option page
-		$context['company_info'] = get_field('company_info', 'options'); //adding company info option page
-		$context['footer'] = get_field('footer', 'options'); //adding footer option page
+		$context['primary'] = get_field( 'global.color_scheme.colors[0].color.color_value' );
+		$context['global'] = get_field( 'global', 'options' );
+		$context['topbar'] = get_field( 'topbar', 'options' );
+		$context['header'] = get_field( 'header', 'options' );
+		$context['company_info'] = get_field( 'company_info', 'options' );
+		$context['footer'] = get_field( 'footer', 'options' );
 		$context['stuff'] = 'I am a value set in your functions.php file';
 		$context['notes'] = 'These values are available everytime you call Timber::context();';
-		$context['menu']  = new Timber\Menu('Main menu');
-		$context['site']  = $this;
+		$context['menu'] = new Timber\Menu( 'Main menu' );
+		$context['site'] = $this;
+		$context['current_post_id'] = $current_post_id;
+		$context['user_logged_in'] = is_user_logged_in();
+		$context['logout_url'] = wp_logout_url();
+		
+		if ( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
+			$member = pms_get_member( $user_id );
+			$context['membership_plan'] = $member->subscriptions[0]['subscription_plan_id'];
+			$context['membership_status'] = $member->subscriptions[0]['status'];
+		}
+
 		return $context;
 	}
 
-	/** This is where you can add your own functions to twig.
-	 *
-	 * @param string $twig get extension.
-	 */
 	public function add_to_twig( $twig ) {
 		$twig->addExtension( new Twig\Extension\StringLoaderExtension() );
 		$twig->addFilter( new Twig\TwigFilter( 'myfoo', array( $this, 'myfoo' ) ) );
@@ -132,73 +102,27 @@ class StarterSite extends Timber\Site {
 
 new StarterSite();
 
-// WP HEAD CLEANOUT
-//Remove RSD Link
 remove_action( 'wp_head', 'rsd_link' );
-//Remove generator
 remove_action( 'wp_head', 'wp_generator' );
-//Remove REST API link tag
 remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
-//Remove oEmbed links
 remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 );
-//Remove REST API in HTTP Headers
 remove_action( 'template_redirect', 'rest_output_link_header', 11, 0 );
-//Remove WLW Manifest
 remove_action( 'wp_head', 'wlwmanifest_link' );
-//Remove shortlink
-remove_action( 'wp_head', 'wp_shortlink_wp_head');
-add_filter('emoji_svg_url', '__return_false');
+remove_action( 'wp_head', 'wp_shortlink_wp_head' );
+add_filter( 'emoji_svg_url', '__return_false' );
+
 function disable_emojis() {
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
-	remove_action( 'admin_print_styles', 'print_emoji_styles' );	
+	remove_action( 'admin_print_styles', 'print_emoji_styles' );
 	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
-	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );	
-	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );	
-	// Remove from TinyMCE
+	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 	add_filter( 'tiny_mce_plugins', 'disable_emojis_tinymce' );
 }
 add_action( 'init', 'disable_emojis' );
 
-/**
- * Custom rewrite rule for services post type to remove /services/ prefix
- */
-function add_services_rewrite_rules() {
-	add_rewrite_rule(
-		'^([^/]+)/?$',
-		'index.php?name=$matches[1]&post_type=services',
-		'top'
-	);
-}
-add_action( 'init', 'add_services_rewrite_rules' );
-
-/**
- * Redirect old /services/slug URLs to new /slug format
- */
-function redirect_services_url() {
-	if ( is_404() ) {
-		$request_uri = trim( $_SERVER['REQUEST_URI'], '/' );
-		
-		// Check if URL starts with /services/
-		if ( strpos( $request_uri, 'services/' ) === 0 ) {
-			$slug = str_replace( 'services/', '', $request_uri );
-			
-			// Get the service post by slug
-			$service = get_page_by_path( $slug, OBJECT, 'services' );
-			
-			if ( $service ) {
-				wp_redirect( get_permalink( $service ), 301 );
-				exit;
-			}
-		}
-	}
-}
-add_action( 'template_redirect', 'redirect_services_url' );
-
-/**
- * Filter out the tinymce emoji plugin.
- */
 function disable_emojis_tinymce( $plugins ) {
 	if ( is_array( $plugins ) ) {
 		return array_diff( $plugins, array( 'wpemoji' ) );
@@ -207,90 +131,66 @@ function disable_emojis_tinymce( $plugins ) {
 	}
 }
 
-// Allow SVG
 function enable_svg_upload( $upload_mimes ) {
-    $upload_mimes['svg'] = 'image/svg+xml';
-    $upload_mimes['svgz'] = 'image/svg+xml';
-    return $upload_mimes;
+	$upload_mimes['svg'] = 'image/svg+xml';
+	$upload_mimes['svgz'] = 'image/svg+xml';
+	return $upload_mimes;
 }
 add_filter( 'upload_mimes', 'enable_svg_upload', 10, 1 );
-// Adding Screen Option to Admin Dashboard
-add_filter('set-screen-option', 'myFilterScreenOption', 11, 3);
-function myFilterScreenOption($keep, $option, $value) {
-    if ($option === 'myitem_per_page') {
-        if ($value < 0) {
-            $value = 0;
-        } elseif ($value > 100) {
-            $value = 100;
-        }
-    }
-    return $value;
+
+add_filter( 'set-screen-option', 'myFilterScreenOption', 11, 3 );
+function myFilterScreenOption( $keep, $option, $value ) {
+	if ( $option === 'myitem_per_page' ) {
+		if ( $value < 0 ) {
+			$value = 0;
+		} elseif ( $value > 100 ) {
+			$value = 100;
+		}
+	}
+	return $value;
 }
 
-// GLOBAL ACF SETTINGS
-//adding acf funtions for Company info settings
-if (function_exists('acf_add_options_page')) {
-	acf_add_options_page(array(
+if ( function_exists( 'acf_add_options_page' ) ) {
+	acf_add_options_page( array(
 		'page_title' => 'Global',
 		'menu_title' => 'Global settings',
 		'menu_slug' => 'global-settings',
 		'icon_url' => 'dashicons-admin-generic',
 		'capability' => 'edit_posts',
 		'redirect' => false
-	));
+	) );
 }
 
-
-// RESET ACF WYSYWIG P TAG INSERTING
 function acf_wysiwyg_remove_wpautop() {
-	// remove p tags //
-	remove_filter ('the_content', 'wpautop');
-	remove_filter('the_content', 'wptexturize');
-	// add line breaks before all newlines //
-  }
-  add_action('acf/init', 'acf_wysiwyg_remove_wpautop');
-  
-// Disable WP Compression
-add_filter('jpeg_quality', function($arg){return 100;});
+	remove_filter( 'the_content', 'wpautop' );
+	remove_filter( 'the_content', 'wptexturize' );
+}
+add_action( 'acf/init', 'acf_wysiwyg_remove_wpautop' );
 
+add_filter( 'jpeg_quality', function( $arg ) {
+	return 100;
+} );
 
-// CUSTOM SCRIPTS
 function theme_custom_scripts() {
-	wp_enqueue_script( 'main-scripts', get_template_directory_uri() . '/js/bundle.js', array('jquery'), '1.1.2', true);
-	}
-	add_action('wp_enqueue_scripts', 'theme_custom_scripts'); 
+	wp_enqueue_script( 'main-scripts', get_template_directory_uri() . '/js/bundle.js', array( 'jquery' ), '1.1.2', true );
+}
+add_action( 'wp_enqueue_scripts', 'theme_custom_scripts' );
 
-	
-// Custom Login
 function my_login_stylesheet() {
-    wp_enqueue_style( 'custom-login', get_stylesheet_directory_uri() . '/css/bundle.css' );
+	wp_enqueue_style( 'custom-login', get_stylesheet_directory_uri() . '/css/bundle.css' );
 }
 add_action( 'login_enqueue_scripts', 'my_login_stylesheet' );
 
-// Custom Login Logo Link
-add_filter( 'login_headerurl', 'codecanal_loginlogo_url' ); 
-function codecanal_loginlogo_url($url) 
-{
-  return home_url(); 
-  /* User will be redirected to the site home page */
-} 
-/**
- * Registers support for editor styles & Enqueue it.
- */
-function enqueuing_editor_styling(){
-    wp_enqueue_style('gutenberg-styles', get_template_directory_uri().'/css/bundle.css'); 
+add_filter( 'login_headerurl', 'codecanal_loginlogo_url' );
+function codecanal_loginlogo_url( $url ) {
+	return home_url();
+}
+
+function enqueuing_editor_styling() {
+	wp_enqueue_style( 'gutenberg-styles', get_template_directory_uri() . '/css/bundle.css' );
 }
 add_action( 'enqueue_block_assets', 'enqueuing_editor_styling' );
 
-
-/**
- *  This is the callback that displays the block.
- *
- * @param   array  $block      The block settings and attributes.
- * @param   string $content    The block content (emtpy string).
- * @param   bool   $is_preview True during AJAX preview.
- */
-// blocks render
 function rd_blocks( $categories, $post ) {
 	return array_merge(
 		$categories,
@@ -302,92 +202,114 @@ function rd_blocks( $categories, $post ) {
 		)
 	);
 }
-add_filter( 'block_categories_all', 'rd_blocks', 10, 2);
+add_filter( 'block_categories_all', 'rd_blocks', 10, 2 );
 
-function block_acf_init()
-{
-    $blocks = require(__DIR__.'/blocks.php');
-    foreach($blocks as $block) {
-        acf_register_block($block);
-    }
+function block_acf_init() {
+	$blocks = require( __DIR__ . '/blocks.php' );
+	foreach ( $blocks as $block ) {
+		acf_register_block( $block );
+	}
 }
 add_action( 'acf/init', 'block_acf_init' );
 
 function my_acf_block_render_callback( $block, $innerblock, $content = '', $is_preview = false ) {
-    $context = Timber::context();
-		//Get the object of the current post
-		$current_post_id = get_the_ID();
-		if ( ! $current_post_id ) {
-			$current_post_id = get_queried_object_id();
-		}
+	$context = Timber::context();
+	$current_post_id = get_the_ID();
+	if ( ! $current_post_id ) {
+		$current_post_id = get_queried_object_id();
+	}
 
-    // Store block values.
-    $context['block'] = $block;
-    $context['fields'] = get_fields();
-		$context['current_post_id'] = $current_post_id;
-		$context['user_logged_in'] = is_user_logged_in();
-		$context['logout_url'] = wp_logout_url();
-		
-		if ( is_user_logged_in() ) {
-				$user_id = get_current_user_id();
-				$member = pms_get_member( $user_id );
-				$context['membership_plan'] = $member->subscriptions[0]['subscription_plan_id'];
-				$context['membership_status'] = $member->subscriptions[0]['status'];
-		}
-				
-    $context['is_preview'] = $is_preview;
-    // Render the block.
-    Timber::render( 'templates/blocks/' . str_replace('acf/', '', strtolower($block['name'])) . '.twig', $context );
+	$context['block'] = $block;
+	$context['fields'] = get_fields();
+
+	$context['is_preview'] = $is_preview;
+	Timber::render( 'templates/blocks/' . str_replace( 'acf/', '', strtolower( $block['name'] ) ) . '.twig', $context );
 }
 
-// Erase Comment Menu
 add_action( 'admin_init', 'my_remove_admin_menus' );
 function my_remove_admin_menus() {
-    remove_menu_page( 'edit-comments.php' );
+	remove_menu_page( 'edit-comments.php' );
 }
 
-// Dashboard Menu Horizontal Separators Locations
 add_action( 'admin_menu', 'set_admin_menu_separator' );
 function set_admin_menu_separator() {
 	$position = 25;
 	global $menu;
-	$menu[$position] = array(
-		0   =>  '',
-		1   =>  'read',
-		2   =>  'separator' . $position,
-		3   =>  '',
-		4   =>  'wp-menu-separator'
+	$menu[ $position ] = array(
+		0 => '',
+		1 => 'read',
+		2 => 'separator' . $position,
+		3 => '',
+		4 => 'wp-menu-separator'
 	);
 }
 
-// Add if the user is accessing this page = 1684 or is a single document post type but not logged in, redirect to login page
 function redirect_to_login_if_not_logged_in() {
-	//If user if logged out but accessing subscription documents
-	if ( !is_user_logged_in() && ( is_page( 1684 ) || (is_singular( 'documents' ) ) ) ) {
-		wp_redirect('/login/');
+	if ( ! is_user_logged_in() && ( is_page( 1684 ) || is_singular( 'documents' ) ) ) {
+		wp_redirect( '/login/' );
 		exit;
-	//If user is logged in but accessing subscription documents, check if they have an active subscription, if not redirect to login page
-	} else if ( is_user_logged_in() && ( is_page( 1684 ) || (is_singular( 'documents' ) ) ) ) {
+	} elseif ( is_user_logged_in() && ( is_page( 1684 ) || is_singular( 'documents' ) ) ) {
 		$user_id = get_current_user_id();
 		$member = pms_get_member( $user_id );
-		$subscription_status = pms_get_member_subscription($member->subscriptions[0]['id']);
+		$subscription_status = pms_get_member_subscription( $member->subscriptions[0]['id'] );
 
 		if ( $subscription_status->status != 'active' ) {
-			wp_redirect('/update-payment/');
+			wp_redirect( '/update-payment/' );
 			exit;
 		}
 	}
 }
 add_action( 'template_redirect', 'redirect_to_login_if_not_logged_in' );
 
-// Removing Reviews Bundle plugin's upgrade notification
-add_action('admin_head', 'remove_annoying_notification');
-function remove_annoying_notification()
-{
+add_action( 'admin_head', 'remove_annoying_notification' );
+function remove_annoying_notification() {
 	echo '<style>
-    .notice.notice-error.is-dismissible {
-      display: none!important;
-    }
-  </style>';
+		.notice.notice-error.is-dismissible {
+			display: none !important;
+		}
+	</style>';
 }
 
+/**
+ * Remove /services/ from the services post type URL structure
+ */
+function sfl_remove_services_slug() {
+    // Add rewrite rule to handle service posts without /services/ prefix
+    add_rewrite_rule(
+        '^([^/]+)/?$',
+        'index.php?services=$matches[1]&post_type=services',
+        'bottom' // Changed to bottom priority
+    );
+}
+add_action('init', 'sfl_remove_services_slug');
+
+/**
+ * Filter the permalink for services post type
+ */
+function sfl_services_post_link($post_link, $post) {
+    if ($post->post_type === 'services') {
+        return home_url('/' . $post->post_name . '/');
+    }
+    return $post_link;
+}
+add_filter('post_type_link', 'sfl_services_post_link', 10, 2);
+
+/**
+ * Prevent conflicts - only load services if they exist
+ */
+function sfl_services_parse_request($wp) {
+    // Check if this might be a services request
+    if (array_key_exists('services', $wp->query_vars)) {
+        $slug = $wp->query_vars['services'];
+        
+        // Check if a service post exists with this slug
+        $service = get_page_by_path($slug, OBJECT, 'services');
+        
+        if (!$service) {
+            // No service found, let WordPress handle it normally (could be a page/post)
+            unset($wp->query_vars['services']);
+            unset($wp->query_vars['post_type']);
+        }
+    }
+}
+add_action('parse_request', 'sfl_services_parse_request');

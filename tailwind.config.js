@@ -27,7 +27,7 @@ module.exports = {
         'black': '#000',
         'blackfull': '#000',
         'brown': '#000',
-        'orange': '#FF8800',
+        'orange': '#B8D0D2',
         'white30': 'rgba(255, 255, 255, 0.3)',
         'white12': 'rgba(255, 255, 255, 0.12)',
         'white6': 'rgba(255, 255, 255, 0.06)',
