@@ -24,8 +24,8 @@
       {% endif %}
     </div>
     <!-- Heading End -->
-    {% set is_materials_page == 1684 %}
-    {% if is_materials_page and user_logged_in %}
+    {% set is_materials_page = 1684 %}
+    {% if is_materials_page == current_post_id and user_logged_in %}
       {# posts #}
       {% set posts = {'post_type': 'documents', 'numberposts': '-1'} %}
       <div class="rd-card-main">

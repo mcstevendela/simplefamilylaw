@@ -25,11 +25,11 @@
     }
 
     &-icon {
-      @apply transition-all;
+      @apply transition-all w-full;
     }
 
     &__icon {
-      @apply transition-all;
+      @apply transition-all w-full;
       height: 220px;
       object-fit: cover;
     }
