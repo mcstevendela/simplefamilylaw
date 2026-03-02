@@ -31,7 +31,7 @@
   }
 
   &-sidebar {
-    @apply w-full lg:w-1/4;
+    @apply w-full lg:max-w-[400px]
   }
 
   &-transcript {
@@ -46,11 +46,15 @@
     &__heading {
       @apply inline-block text-xl font-bold mb-4;
     }
+
+    &-nav {
+      @apply h-[400px] lg:h-[600px] overflow-y-auto border border-para p-4;
+    }
   }
 
   &-document {
     &__link {
-      @apply flex gap-2 items-start mb-2 pb-4 border-b border-b-maroon last:border-b-0 last:mb-0 last:pb-0;
+      @apply flex gap-2 items-start mb-2 pb-2 border-b border-b-maroon last:border-b-0 last:mb-0 last:pb-0;
     }
 
     &__icon {

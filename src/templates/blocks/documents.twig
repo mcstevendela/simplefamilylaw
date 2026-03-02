@@ -53,7 +53,7 @@
       <!-- Video -->
       <!-- Button -->
       {% if document.form_link %}
-        <a href="{{ document.form_link.url }}" target="_blank" class="rd-material__button btn btn-primary">Fill out the Document</a>
+        <a href="{{ document.form_link }}" target="_blank" class="rd-material__button btn btn-primary">Fill out the Document</a>
       {% endif %}
       <!-- Button -->
       <!-- Transcript -->
@@ -76,7 +76,7 @@
               class="rd-material-document__link"
               target="_blank"
               rel="noopener noreferrer"
-              formlink="{{ item.form_link.url }}"
+              formlink="{{ item.form_link }}"
               videotitle="{{ item.document_title }}"
               videolink="{{ item.video_link }}"
               videotranscript="{{ item.video_transcript }}"

@@ -39,10 +39,6 @@
     @apply py-1 px-4;
   }
 
-  &-account-subscription-details-table tr > td:first-of-type {
-    @apply pl-0;
-  }
-
   &-account-subscription-action-link {
     @apply text-para underline font-semibold hover:lg:text-black;
   }

@@ -22,6 +22,10 @@
     & li{
       @apply flex flex-col justify-center lg:pr-8;
       border-right: 1px solid #B8D0D2;
+
+      &.documents-nav {
+        @apply hidden;
+      }
     }
 
     & li::before {
@@ -65,7 +69,7 @@
 
   &-menu {
     &-list {
-      @apply flex gap-[50px];
+      @apply flex gap-[2rem];
       height: 128px
     }
 

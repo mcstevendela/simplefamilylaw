@@ -109,6 +109,30 @@ function smoothScroll(offset = 160) {
 function documentsNavigation() {
   const materialBlocks = document.querySelectorAll('.rd-material');
 
+  if (document.body.classList.contains('logged-in') && document.body.classList.contains('admin-bar')) {
+    const storeNav = document.querySelector('.store-nav');
+    const documentsNav = document.querySelector('.documents-nav');
+    
+
+    if (storeNav) {
+      storeNav.style.display = 'none';
+    }
+
+    if (documentsNav) {
+      documentsNav.style.display = 'flex';
+    }
+
+    //replace all links that has subscribe text and registration link with wordpress logout
+    document.querySelectorAll('a').forEach(link => {
+      if (link.textContent.toLowerCase().includes('subscribe') || link.textContent.toLowerCase().includes('registration')) {
+        link.setAttribute('href', '/wp-login.php?action=logout');
+        link.textContent = 'Logout';
+      }
+    });
+  }
+
+  
+
   if (!materialBlocks.length) {
     return;
   }
