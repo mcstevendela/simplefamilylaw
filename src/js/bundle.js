@@ -109,7 +109,7 @@ function smoothScroll(offset = 160) {
 function documentsNavigation() {
   const materialBlocks = document.querySelectorAll('.rd-material');
 
-  if (document.body.classList.contains('logged-in') && document.body.classList.contains('admin-bar')) {
+  if (document.body.classList.contains('logged-in')) {
     const storeNav = document.querySelector('.store-nav');
     const documentsNav = document.querySelector('.documents-nav');
     
