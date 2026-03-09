@@ -89,8 +89,8 @@ class StarterSite extends Timber\Site {
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
 			$member = pms_get_member( $user_id );
-			$context['membership_plan'] = $member->subscriptions[0]['subscription_plan_id'];
-			$context['membership_status'] = $member->subscriptions[0]['status'];
+			$context['membership_plan'] = $member->subscriptions[0]['subscription_plan_id'] ?? '';
+			$context['membership_status'] = $member->subscriptions[0]['status'] ?? '';
 		}
 
 		return $context;
@@ -117,7 +117,7 @@ remove_action( 'wp_head', 'wlwmanifest_link' );
 remove_action( 'wp_head', 'wp_shortlink_wp_head' );
 add_filter( 'emoji_svg_url', '__return_false' );
 
-function disable_emojis() {
+function rd_disable_emojis() {
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
@@ -125,11 +125,11 @@ function disable_emojis() {
 	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
 	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
 	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
-	add_filter( 'tiny_mce_plugins', 'disable_emojis_tinymce' );
+	add_filter( 'tiny_mce_plugins', 'rd_disable_emojis_tinymce' );
 }
-add_action( 'init', 'disable_emojis' );
+add_action( 'init', 'rd_disable_emojis' );
 
-function disable_emojis_tinymce( $plugins ) {
+function rd_disable_emojis_tinymce( $plugins ) {
 	if ( is_array( $plugins ) ) {
 		return array_diff( $plugins, array( 'wpemoji' ) );
 	} else {
@@ -137,15 +137,15 @@ function disable_emojis_tinymce( $plugins ) {
 	}
 }
 
-function enable_svg_upload( $upload_mimes ) {
+function rd_enable_svg_upload( $upload_mimes ) {
 	$upload_mimes['svg'] = 'image/svg+xml';
 	$upload_mimes['svgz'] = 'image/svg+xml';
 	return $upload_mimes;
 }
-add_filter( 'upload_mimes', 'enable_svg_upload', 10, 1 );
+add_filter( 'upload_mimes', 'rd_enable_svg_upload', 10, 1 );
 
-add_filter( 'set-screen-option', 'myFilterScreenOption', 11, 3 );
-function myFilterScreenOption( $keep, $option, $value ) {
+add_filter( 'set-screen-option', 'rd_myFilterScreenOption', 11, 3 );
+function rd_myFilterScreenOption( $keep, $option, $value ) {
 	if ( $option === 'myitem_per_page' ) {
 		if ( $value < 0 ) {
 			$value = 0;
@@ -167,35 +167,35 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 	) );
 }
 
-function acf_wysiwyg_remove_wpautop() {
+function rd_acf_wysiwyg_remove_wpautop() {
 	remove_filter( 'the_content', 'wpautop' );
 	remove_filter( 'the_content', 'wptexturize' );
 }
-add_action( 'acf/init', 'acf_wysiwyg_remove_wpautop' );
+add_action( 'acf/init', 'rd_acf_wysiwyg_remove_wpautop' );
 
 add_filter( 'jpeg_quality', function( $arg ) {
 	return 100;
 } );
 
-function theme_custom_scripts() {
+function rd_theme_custom_scripts() {
 	wp_enqueue_script( 'main-scripts', get_template_directory_uri() . '/js/bundle.js', array( 'jquery' ), '1.1.2', true );
 }
-add_action( 'wp_enqueue_scripts', 'theme_custom_scripts' );
+add_action( 'wp_enqueue_scripts', 'rd_theme_custom_scripts' );
 
-function my_login_stylesheet() {
+function rd_my_login_stylesheet() {
 	wp_enqueue_style( 'custom-login', get_stylesheet_directory_uri() . '/css/bundle.css' );
 }
-add_action( 'login_enqueue_scripts', 'my_login_stylesheet' );
+add_action( 'login_enqueue_scripts', 'rd_my_login_stylesheet' );
 
-add_filter( 'login_headerurl', 'codecanal_loginlogo_url' );
-function codecanal_loginlogo_url( $url ) {
+add_filter( 'login_headerurl', 'rd_codecanal_loginlogo_url' );
+function rd_codecanal_loginlogo_url( $url ) {
 	return home_url();
 }
 
-function enqueuing_editor_styling() {
+function rd_enqueuing_editor_styling() {
 	wp_enqueue_style( 'gutenberg-styles', get_template_directory_uri() . '/css/bundle.css' );
 }
-add_action( 'enqueue_block_assets', 'enqueuing_editor_styling' );
+add_action( 'enqueue_block_assets', 'rd_enqueuing_editor_styling' );
 
 function rd_blocks( $categories, $post ) {
 	return array_merge(
@@ -210,15 +210,15 @@ function rd_blocks( $categories, $post ) {
 }
 add_filter( 'block_categories_all', 'rd_blocks', 10, 2 );
 
-function block_acf_init() {
+function rd_block_acf_init() {
 	$blocks = require( __DIR__ . '/blocks.php' );
 	foreach ( $blocks as $block ) {
 		acf_register_block( $block );
 	}
 }
-add_action( 'acf/init', 'block_acf_init' );
+add_action( 'acf/init', 'rd_block_acf_init' );
 
-function my_acf_block_render_callback( $block, $innerblock, $content = '', $is_preview = false ) {
+function rd_my_acf_block_render_callback( $block, $innerblock, $content = '', $is_preview = false ) {
 	$context = Timber::context();
 
 	$context['block'] = $block;
@@ -228,13 +228,13 @@ function my_acf_block_render_callback( $block, $innerblock, $content = '', $is_p
 	Timber::render( 'templates/blocks/' . str_replace( 'acf/', '', strtolower( $block['name'] ) ) . '.twig', $context );
 }
 
-add_action( 'admin_init', 'my_remove_admin_menus' );
-function my_remove_admin_menus() {
+add_action( 'admin_init', 'rd_my_remove_admin_menus' );
+function rd_my_remove_admin_menus() {
 	remove_menu_page( 'edit-comments.php' );
 }
 
-add_action( 'admin_menu', 'set_admin_menu_separator' );
-function set_admin_menu_separator() {
+add_action( 'admin_menu', 'rd_set_admin_menu_separator' );
+function rd_set_admin_menu_separator() {
 	$position = 25;
 	global $menu;
 	$menu[ $position ] = array(
@@ -246,9 +246,9 @@ function set_admin_menu_separator() {
 	);
 }
 
-function redirect_to_login_if_not_logged_in() {
+function rd_redirect_to_login_if_not_logged_in() {
 	if ( ! is_user_logged_in() && ( is_page( 1684 ) || is_singular( 'documents' ) ) ) {
-		wp_redirect( '/login/' );
+		wp_redirect( '/my-account/' );
 		exit;
 	} elseif ( is_user_logged_in() && ( is_page( 1684 ) || is_singular( 'documents' ) ) ) {
 		$user_id = get_current_user_id();
@@ -264,10 +264,10 @@ function redirect_to_login_if_not_logged_in() {
 		exit;
 	}
 }
-add_action( 'template_redirect', 'redirect_to_login_if_not_logged_in' );
+add_action( 'template_redirect', 'rd_redirect_to_login_if_not_logged_in' );
 
-add_action( 'admin_head', 'remove_annoying_notification' );
-function remove_annoying_notification() {
+add_action( 'admin_head', 'rd_remove_annoying_notification' );
+function rd_remove_annoying_notification() {
 	echo '<style>
 		.notice.notice-error.is-dismissible {
 			display: none !important;
@@ -278,7 +278,7 @@ function remove_annoying_notification() {
 /**
  * Remove /services/ from the services post type URL structure
  */
-function sfl_remove_services_slug() {
+function rd_sfl_remove_services_slug() {
     // Add rewrite rule to handle service posts without /services/ prefix
     add_rewrite_rule(
         '^([^/]+)/?$',
@@ -286,35 +286,98 @@ function sfl_remove_services_slug() {
         'bottom' // Changed to bottom priority
     );
 }
-add_action('init', 'sfl_remove_services_slug');
+add_action( 'init', 'rd_sfl_remove_services_slug' );
 
 /**
  * Filter the permalink for services post type
  */
-function sfl_services_post_link($post_link, $post) {
-    if ($post->post_type === 'services') {
-        return home_url('/' . $post->post_name . '/');
-    }
-    return $post_link;
+function rd_sfl_services_post_link( $post_link, $post ) {
+	if ( $post->post_type === 'services' ) {
+		return home_url( '/' . $post->post_name . '/' );
+	}
+	return $post_link;
 }
-add_filter('post_type_link', 'sfl_services_post_link', 10, 2);
+add_filter( 'post_type_link', 'rd_sfl_services_post_link', 10, 2 );
 
 /**
  * Prevent conflicts - only load services if they exist
  */
-function sfl_services_parse_request($wp) {
-    // Check if this might be a services request
-    if (array_key_exists('services', $wp->query_vars)) {
-        $slug = $wp->query_vars['services'];
-        
-        // Check if a service post exists with this slug
-        $service = get_page_by_path($slug, OBJECT, 'services');
-        
-        if (!$service) {
-            // No service found, let WordPress handle it normally (could be a page/post)
-            unset($wp->query_vars['services']);
-            unset($wp->query_vars['post_type']);
-        }
-    }
+function rd_sfl_services_parse_request( $wp ) {
+	// Check if this might be a services request
+	if ( array_key_exists( 'services', $wp->query_vars ) ) {
+		$slug = $wp->query_vars['services'];
+
+		// Check if a service post exists with this slug
+		$service = get_page_by_path( $slug, OBJECT, 'services' );
+
+		if ( ! $service ) {
+			// No service found, let WordPress handle it normally (could be a page/post)
+			unset( $wp->query_vars['services'] );
+			unset( $wp->query_vars['post_type'] );
+		}
+	}
 }
-add_action('parse_request', 'sfl_services_parse_request');
+add_action( 'parse_request', 'rd_sfl_services_parse_request' );
+
+add_action( 'template_redirect', 'rd_force_login_before_cart_and_checkout' );
+
+function rd_force_login_before_cart_and_checkout() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	if (
+		function_exists( 'is_cart' ) &&
+		function_exists( 'is_checkout' ) &&
+		( is_cart() || ( is_checkout() && ! is_wc_endpoint_url( 'order-received' ) ) ) &&
+		! is_user_logged_in()
+	) {
+		$target = is_cart() ? wc_get_cart_url() : wc_get_checkout_url();
+		$myaccount = wc_get_page_permalink( 'myaccount' );
+
+		wp_safe_redirect( add_query_arg( 'redirect_to', rawurlencode( $target ), $myaccount ) );
+		exit;
+	}
+}
+
+add_action( 'template_redirect', 'rd_my_wc_redirect_after_payment_confirmation' );
+
+function rd_my_wc_redirect_after_payment_confirmation() {
+	// Only run on WooCommerce order-received page
+	if ( ! function_exists( 'is_wc_endpoint_url' ) || ! is_wc_endpoint_url( 'order-received' ) ) {
+		return;
+	}
+
+	// Require order key in URL
+	if ( empty( $_GET['key'] ) ) {
+		return;
+	}
+
+	// Get order ID from order key
+	$order_id = wc_get_order_id_by_order_key( wc_clean( wp_unslash( $_GET['key'] ) ) );
+	$order    = $order_id ? wc_get_order( $order_id ) : false;
+
+	if ( ! $order ) {
+		return;
+	}
+
+	// Optional: only redirect paid orders
+	if ( ! $order->is_paid() ) {
+		return;
+	}
+
+	// Change this to your target page
+	$target_url = home_url( '/thank-you-custom/' );
+
+	// Optional: pass order data to the page
+	$target_url = add_query_arg(
+		array(
+			'order_id' => $order->get_id(),
+			'key'      => $order->get_order_key(),
+		),
+		$target_url
+	);
+
+	wp_safe_redirect( $target_url );
+	exit;
+}
