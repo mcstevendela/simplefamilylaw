@@ -278,7 +278,7 @@ function rd_remove_annoying_notification() {
 /**
  * Remove /services/ from the services post type URL structure
  */
-function rd_sfl_remove_services_slug() {
+function rd_remove_services_slug() {
     // Add rewrite rule to handle service posts without /services/ prefix
     add_rewrite_rule(
         '^([^/]+)/?$',
@@ -286,23 +286,23 @@ function rd_sfl_remove_services_slug() {
         'bottom' // Changed to bottom priority
     );
 }
-add_action( 'init', 'rd_sfl_remove_services_slug' );
+add_action( 'init', 'rd_remove_services_slug' );
 
 /**
  * Filter the permalink for services post type
  */
-function rd_sfl_services_post_link( $post_link, $post ) {
+function rd_services_post_link( $post_link, $post ) {
 	if ( $post->post_type === 'services' ) {
 		return home_url( '/' . $post->post_name . '/' );
 	}
 	return $post_link;
 }
-add_filter( 'post_type_link', 'rd_sfl_services_post_link', 10, 2 );
+add_filter( 'post_type_link', 'rd_services_post_link', 10, 2 );
 
 /**
  * Prevent conflicts - only load services if they exist
  */
-function rd_sfl_services_parse_request( $wp ) {
+function rd_services_parse_request( $wp ) {
 	// Check if this might be a services request
 	if ( array_key_exists( 'services', $wp->query_vars ) ) {
 		$slug = $wp->query_vars['services'];
@@ -317,10 +317,11 @@ function rd_sfl_services_parse_request( $wp ) {
 		}
 	}
 }
-add_action( 'parse_request', 'rd_sfl_services_parse_request' );
+add_action( 'parse_request', 'rd_services_parse_request' );
 
-add_action( 'template_redirect', 'rd_force_login_before_cart_and_checkout' );
-
+/**
+ * Force login before accessing cart and checkout pages
+ */
 function rd_force_login_before_cart_and_checkout() {
 	if ( is_admin() ) {
 		return;
@@ -339,10 +340,12 @@ function rd_force_login_before_cart_and_checkout() {
 		exit;
 	}
 }
+add_action( 'template_redirect', 'rd_force_login_before_cart_and_checkout' );
 
-add_action( 'template_redirect', 'rd_my_wc_redirect_after_payment_confirmation' );
-
-function rd_my_wc_redirect_after_payment_confirmation() {
+/**
+ * Redirect to a custom page after payment confirmation
+ */
+function rd_redirect_after_payment_confirmation() {
 	// Only run on WooCommerce order-received page
 	if ( ! function_exists( 'is_wc_endpoint_url' ) || ! is_wc_endpoint_url( 'order-received' ) ) {
 		return;
@@ -367,17 +370,20 @@ function rd_my_wc_redirect_after_payment_confirmation() {
 	}
 
 	// Change this to your target page
-	$target_url = home_url( '/thank-you-custom/' );
-
-	// Optional: pass order data to the page
-	$target_url = add_query_arg(
-		array(
-			'order_id' => $order->get_id(),
-			'key'      => $order->get_order_key(),
-		),
-		$target_url
-	);
+	$target_url = home_url( '/documents/' );
 
 	wp_safe_redirect( $target_url );
 	exit;
 }
+add_action( 'template_redirect', 'rd_redirect_after_payment_confirmation' );
+
+/**
+ * Redirect shop to store page
+ */
+function rd_redirect_shop_to_store() {
+	if ( is_shop() ) {
+		wp_safe_redirect( home_url( '/store/' ) );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'rd_redirect_shop_to_store' );

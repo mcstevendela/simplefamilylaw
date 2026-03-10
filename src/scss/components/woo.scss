@@ -7,6 +7,7 @@
     padding: 100px 24px !important;
   }
 }
+
 .wp-block-woocommerce {
   &-cart, &-checkout {
     @apply max-w-[1240px];
@@ -19,7 +20,7 @@
   }
 }
 
-.wc-block-components-button, .woocommerce-button, .woocommerce-message a.button {
+.wc-block-components-button, .woocommerce-button, .woocommerce-message a.button, .place-order button, .wc-forward, .woocommerce-Button {
   background-color: #B8D0D2 !important;
   color: #000 !important;
   padding: 1rem 2.5rem !important;
@@ -30,4 +31,54 @@
     background-color: #000 !important;
     color: #fff !important;
   }
+}
+
+.wc-block-cart-items {
+  &__header-image span,
+  &__header-total span,
+  .wc-block-components-product-name,
+  .wc-block-formatted-money-amount,
+  .wc-block-cart-item__remove-link {
+    font-size: 16px !important;
+  }
+}
+
+.wc-block-components-sidebar {
+  .wc-block-cart__totals-title {
+    font-size: 16px !important;
+  }
+}
+
+.wc_payment_methods {
+  @apply bg-beige;
+
+  & li::before {
+    display: none !important;
+  }
+}
+
+.woocommerce-checkout #payment div.payment_box {
+  background-color: #fff !important;
+
+  &::before {
+    border-bottom-color: #fff !important;
+  }
+
+  & input {
+    font-size: 16px !important;
+    border-color: #000 !important;
+    color: #000 !important;
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.5) !important;
+    }
+  }
+}
+
+.place-order, .woocommerce-error, .woocommerce-info, .woocommerce-message {
+  background-color: #F9F4EC !important;
+}
+
+.woocommerce-form {
+  border-color: #000 !important;
 }
