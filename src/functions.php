@@ -370,7 +370,7 @@ function rd_redirect_after_payment_confirmation() {
 	}
 
 	// Change this to your target page
-	$target_url = home_url( '/documents/' );
+	$target_url = home_url( '/thank-you-registration/' );
 
 	wp_safe_redirect( $target_url );
 	exit;
@@ -381,9 +381,30 @@ add_action( 'template_redirect', 'rd_redirect_after_payment_confirmation' );
  * Redirect shop to store page
  */
 function rd_redirect_shop_to_store() {
-	if ( is_shop() ) {
+	if ( is_shop() || is_product() ) {
 		wp_safe_redirect( home_url( '/store/' ) );
 		exit;
 	}
 }
 add_action( 'template_redirect', 'rd_redirect_shop_to_store' );
+
+/**
+ * Fix TypeError: count(): Argument #1 must be of type Countable|array, null given
+ * Caused by WooCommerce PayPal Payments calling get_the_content() during wp_enqueue_scripts.
+ * Timber never calls the_post() / setup_postdata(), so the global $pages array is never
+ * populated. get_the_content() depends on $pages, causing count(null) on PHP 8+.
+ */
+add_action( 'wp_enqueue_scripts', function() {
+	global $post, $pages;
+	if ( empty( $pages ) ) {
+		if ( ! $post instanceof WP_Post ) {
+			$queried = get_queried_object();
+			if ( $queried instanceof WP_Post ) {
+				$post = $queried;
+			}
+		}
+		if ( $post instanceof WP_Post ) {
+			setup_postdata( $post );
+		}
+	}
+}, 1 );
