@@ -259,9 +259,6 @@ function rd_redirect_to_login_if_not_logged_in() {
 			wp_redirect( '/update-payment/' );
 			exit;
 		}
-	} elseif( is_user_logged_in() && ( is_page( 1919 ) || is_singular( 'store' ) ) ) {
-		wp_redirect( '/documents/' );
-		exit;
 	}
 }
 add_action( 'template_redirect', 'rd_redirect_to_login_if_not_logged_in' );

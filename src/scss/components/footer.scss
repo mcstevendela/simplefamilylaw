@@ -1,13 +1,15 @@
 .rd-footer {
   &-bg {
-    @apply absolute w-full h-full top-0 left-0;
+    @apply absolute w-full h-full top-0 left-0 overflow-hidden;
 
     &::before {
       content: "";
       @apply absolute top-0 left-0 w-full h-full bg-black opacity-90 z-[1];
     }
+
     &__image {
       @apply object-top;
+      height: 100% !important;
     }
   }
 
@@ -29,7 +31,7 @@
 
   &-heading {
     @apply text-white my-0 text-lg leading-snug lg:leading-[18px] my-4;
-    font-family: 'ABeeZee';
+    font-family: 'Gilda Display';
   }
 
   &-col {
@@ -188,11 +190,11 @@
   }
 
   &__float {
-    display: none !important;
-    @apply fixed bottom-8 right-6 z-[3];
+    @apply fixed bottom-0 right-0 z-[3] w-full;
 
     @screen lg {
       display: inline-block !important;
+      @apply bottom-8 right-6 w-auto;
     }
   }
 }

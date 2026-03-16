@@ -47,7 +47,7 @@
       <!-- Column 2 -->
       <div class="rd-footer-col rd-footer-col-2">
         <div class="rd-footer-col-2-inner">
-          <span class="rd-footer-heading">Service Areas:</span>
+          <span class="rd-footer-heading">Store:</span>
           {% if global.footer_service_areas %}
           <ul class="rd-footer-menu">
             {% for item in global.footer_service_areas %}
@@ -102,8 +102,6 @@
   <!-- Footer Bottom End -->
 </footer>
 
-{#
-{% if not user_logged_in %}
-  <a href="/registration/" class="rd-footer__float btn btn-primary">Subscribe</a>
+{% if user_logged_in %}
+  <a href="/my-account/" class="rd-footer__float btn btn-primary">My Account</a>
 {% endif %}
-#}

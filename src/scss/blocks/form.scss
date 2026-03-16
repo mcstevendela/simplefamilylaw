@@ -7,7 +7,7 @@
 
   &__title {
     @apply text-white text-center mt-0 mb-10;
-    font-family: 'ABeeZee';
+    font-family: 'Gilda Display';
     font-size: 32px;
     line-height: 34px;
   }
@@ -54,7 +54,7 @@
   }
 
   & .ff-btn.ff-btn-submit {
-    font-family: 'Inter';
+    font-family: 'Jost', sans-serif;
     @apply inline-block px-10 py-5 text-center text-sm leading-normal font-semibold border transition-all uppercase;
     @apply bg-maroon text-white border-maroon lg:hover:bg-para lg:hover:border-para lg:hover:text-white;
     @apply w-full lg:w-auto lg:px-[145px] py-4 mt-[10px];

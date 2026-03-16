@@ -40,11 +40,11 @@
 
   &__title {
     @apply mt-4 mb-8;
-    font-family: 'ABeeZee';
+    font-family: 'Gilda Display';
   }
 
   &__text {
-    font-family: 'Inter';
+    font-family: 'Jost', sans-serif;
     @apply text-[22px] text-maroon;
   }
 }
@@ -103,7 +103,7 @@
 }
 
 .rd-media-content-points__title{
-  font-family: 'ABeeZee';
+  font-family: 'Gilda Display';
   font-size: 1.5rem;
 }
 

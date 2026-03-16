@@ -110,19 +110,25 @@ function documentsNavigation() {
   const materialBlocks = document.querySelectorAll('.rd-material');
 
   if (document.body.classList.contains('logged-in')) {
-    const storeNav = document.querySelector('.store-nav');
     const documentsNav = document.querySelector('.documents-nav');
-    
-    if (storeNav) {
-      storeNav.style.display = 'none';
-    }
-
     if (documentsNav) {
       documentsNav.style.display = 'flex';
     }
   }
 
-  
+  document.querySelectorAll('a').forEach(link => {
+    if (link.textContent.trim() === 'Subscribe') {
+      link.textContent = 'Documents';
+      link.setAttribute('href', '/documents/');
+    }
+  });
+
+  document.querySelectorAll('a').forEach(link => {
+    if (link.textContent.trim() === 'Login') {
+      link.textContent = 'My Account';
+      link.setAttribute('href', '/my-account/');
+    }
+  });
 
   if (!materialBlocks.length) {
     return;

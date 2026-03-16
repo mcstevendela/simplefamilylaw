@@ -87,7 +87,7 @@
 
     &-top__link {
       @apply text-white text-lg inline-block py-1 lg:py-3;
-      font-family: 'ABeeZee';
+      font-family: 'Gilda Display';
     }
 
     &-top__link.dropdown.open {
@@ -178,6 +178,14 @@
   &--icon-right {
     @apply -rotate-90;
   }
+
+  &-btns {
+    @apply flex items-center gap-2;
+
+    & > a {
+      @apply whitespace-nowrap;
+    }
+  }
 }
 
 @media (max-width: 1023px) {
@@ -200,5 +208,13 @@
 
   .rd-header-menu-top__link-text, .rd-header-menu-drop__link{
     @apply text-black;
+  }
+}
+
+.logged-in .rd-header {
+  &-mobile-menu {
+    .documents-nav {
+      display: flex !important;
+    }
   }
 }
