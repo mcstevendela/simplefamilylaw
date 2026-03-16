@@ -114,21 +114,21 @@ function documentsNavigation() {
     if (documentsNav) {
       documentsNav.style.display = 'flex';
     }
+
+    document.querySelectorAll('a').forEach(link => {
+      if (link.textContent.trim() === 'Subscribe') {
+        link.textContent = 'Documents';
+        link.setAttribute('href', '/documents/');
+      }
+    });
+
+    document.querySelectorAll('a').forEach(link => {
+      if (link.textContent.trim() === 'Login') {
+        link.textContent = 'My Account';
+        link.setAttribute('href', '/my-account/');
+      }
+    });
   }
-
-  document.querySelectorAll('a').forEach(link => {
-    if (link.textContent.trim() === 'Subscribe') {
-      link.textContent = 'Documents';
-      link.setAttribute('href', '/documents/');
-    }
-  });
-
-  document.querySelectorAll('a').forEach(link => {
-    if (link.textContent.trim() === 'Login') {
-      link.textContent = 'My Account';
-      link.setAttribute('href', '/my-account/');
-    }
-  });
 
   if (!materialBlocks.length) {
     return;
