@@ -73,15 +73,19 @@
       </div>
       <!-- Menu End -->
       <!-- Button -->
-      {% if user_logged_in %}
-        <a href="{{ logout_url }}" target="_self" class="btn btn-primary rd-header-nav__button">
-          Logout
-        </a>
-      {% else %}
-        <a href="{{ global.header_button.url }}" target="{{ global.header_button.target }}" class="btn btn-primary rd-header-nav__button">
-          {{ global.header_button.title }}
-        </a>
-      {% endif %}
+      <div class="rd-header-btns">
+        {% if user_logged_in %}
+          {{fn('do_shortcode', '[woocommerce_cart_button]')}}
+          <a href="{{ logout_url }}" target="_self" class="btn btn-primary rd-header-nav__button">
+            Logout
+          </a>
+        {% else %}
+          {{fn('do_shortcode', '[woocommerce_cart_button]')}}
+          <a href="{{ global.header_button.url }}" target="{{ global.header_button.target }}" class="btn btn-primary rd-header-nav__button">
+            {{ global.header_button.title }}
+          </a>
+        {% endif %}
+      </div>
       <!-- Button End -->
     </div>
     <!-- Nav End -->

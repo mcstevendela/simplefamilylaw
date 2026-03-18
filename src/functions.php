@@ -405,3 +405,20 @@ add_action( 'wp_enqueue_scripts', function() {
 		}
 	}
 }, 1 );
+
+// Add a shortcode to display the WooCommerce cart button with item count
+add_shortcode( 'woocommerce_cart_button', 'rd_woocommerce_cart_button' );
+function rd_woocommerce_cart_button() {
+	ob_start();
+	$cart_count = WC()->cart->cart_contents_count;
+	$cart_url = wc_get_cart_url();
+	?>
+	<a class="rd-header__cart" href="<?php echo $cart_url; ?>" title="Basket">
+		<img src="/wp-content/uploads/2026/01/grocery-store.png" alt="Cart">
+		<?php if ( $cart_count > 0 ) { ?>
+			<span class="rd-header__cart-count">1<?php echo esc_html($cart_count); ?></span>
+		<?php } ?>
+	</a>
+	<?php
+	return ob_get_clean();
+}

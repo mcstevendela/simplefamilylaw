@@ -55,7 +55,7 @@
   }
 
   &-nav {
-    @apply flex items-center gap-[120px];
+    @apply flex items-center gap-8 flex-row-reverse lg:flex-row lg:gap-[100px];
 
     &__button {
       @apply bg-maroon text-black border-maroon lg:hover:bg-para lg:hover:border-para lg:hover:text-white;
@@ -180,10 +180,22 @@
   }
 
   &-btns {
-    @apply flex items-center gap-2;
+    @apply flex items-center gap-6;
 
     & > a {
       @apply whitespace-nowrap;
+    }
+  }
+
+  &__cart {
+    @apply inline-block relative;
+
+    & img {
+      @apply max-w-[24px] w-full;
+    }
+
+    &-count {
+      @apply absolute -top-3 -right-3 w-[24px] h-[24px] rounded-full bg-maroon text-white text-xs flex items-center justify-center;
     }
   }
 }
