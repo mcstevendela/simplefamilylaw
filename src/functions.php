@@ -416,7 +416,7 @@ function rd_woocommerce_cart_button() {
 	<a class="rd-header__cart" href="<?php echo $cart_url; ?>" title="Basket">
 		<img src="/wp-content/uploads/2026/01/grocery-store.png" alt="Cart">
 		<?php if ( $cart_count > 0 ) { ?>
-			<span class="rd-header__cart-count">1<?php echo esc_html($cart_count); ?></span>
+			<span class="rd-header__cart-count"><?php echo esc_html($cart_count); ?></span>
 		<?php } ?>
 	</a>
 	<?php
