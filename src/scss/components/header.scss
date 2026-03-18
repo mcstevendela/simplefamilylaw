@@ -20,7 +20,7 @@
     @apply pl-0 my-0;
 
     & li{
-      @apply flex flex-col justify-center lg:pr-8;
+      @apply flex flex-col justify-center lg:pr-[1.5rem];
       border-right: 1px solid #B8D0D2;
 
       &.documents-nav {
@@ -69,7 +69,7 @@
 
   &-menu {
     &-list {
-      @apply flex gap-[2rem];
+      @apply flex gap-[1.5rem];
       height: 128px
     }
 
