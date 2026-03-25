@@ -15,7 +15,7 @@
 <section class="rd-block rd-spacing rd-material">
   <div class="rd-container rd-material-container">
     <!-- Loop to documents -->
-    {% set document = fields.documents[0] %}
+    {% set document = fields.documents[0].document_group[0] %}
     <!-- Main -->
     <div class="rd-material-main">
       <!-- Heading -->
@@ -70,20 +70,24 @@
       <span class="rd-material-sidebar__heading">Documents Navigation</span>
       {% if fields.documents %}
         <div class="rd-material-sidebar-nav">
-          {% for item in fields.documents %}
-            <a
-              href=""
-              class="rd-material-document__link"
-              target="_blank"
-              rel="noopener noreferrer"
-              formlink="{{ item.form_link }}"
-              videotitle="{{ item.document_title }}"
-              videolink="{{ item.video_link }}"
-              videotranscript="{{ item.video_transcript }}"
-            >
-                <img src="{{ site.url }}/wp-content/themes/simplefamilylaw/images/icons/pdf-file.png" alt="PDF - {{ item.document_title }}" class="rd-material-document__icon">
-                <span class="rd-material-document__title">{{ item.document_title }}</span>
-            </a>
+          {% for group in fields.documents %}
+            {% set group_index = loop.index %}
+            <span class="rd-material-sidebar-nav__group-title {% if loop.index == 1 %}rd-material-sidebar-nav__group-title--first{% endif %}">{{ group.group_title }}</span>
+            {% for item in group.document_group %}
+              <a
+                href=""
+                class="rd-material-document__link {% if group_index is even %}rd-material-document__link--even{% endif %}"
+                target="_blank"
+                rel="noopener noreferrer"
+                formlink="{{ item.form_link }}"
+                videotitle="{{ item.document_title }}"
+                videolink="{{ item.video_link }}"
+                videotranscript="{{ item.video_transcript }}"
+              >
+                  <img src="{{ site.url }}/wp-content/themes/simplefamilylaw/images/icons/pdf-file.png" alt="PDF - {{ item.document_title }}" class="rd-material-document__icon">
+                  <span class="rd-material-document__title">{{ item.document_title }}</span>
+              </a>
+            {% endfor %}
           {% endfor %}
         </div>
       {% endif %}

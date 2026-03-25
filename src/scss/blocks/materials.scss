@@ -49,12 +49,24 @@
 
     &-nav {
       @apply h-[400px] lg:h-[600px] overflow-y-auto border border-para p-4;
+
+      &__group-title {
+        @apply block mt-4 mb-2 font-semibold;
+
+        &--first {
+          @apply mt-0;
+        }
+      }
     }
   }
 
   &-document {
     &__link {
-      @apply flex gap-2 items-start mb-2 pb-2 border-b border-b-maroon last:border-b-0 last:mb-0 last:pb-0;
+      @apply flex gap-2 items-start mb-2 p-2 last:mb-0 bg-maroon;
+
+      &--even {
+        @apply bg-beige;
+      }
     }
 
     &__icon {
