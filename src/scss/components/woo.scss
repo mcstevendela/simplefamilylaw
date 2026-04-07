@@ -20,7 +20,7 @@
   }
 }
 
-.wc-block-components-button, .woocommerce-button, .woocommerce-message a.button, .place-order button, .wc-forward, .woocommerce-Button, .woocommerce-MyAccount-content a.button, .woocommerce a.button {
+.wc-block-components-button, .woocommerce-button, .woocommerce-message a.button, .place-order button, .wc-forward, .woocommerce-Button, .woocommerce-MyAccount-content a.button, .woocommerce a.button, .woocommerce-form-coupon .button {
   background-color: #B8D0D2 !important;
   color: #000 !important;
   padding: 1rem 2.5rem !important;
@@ -93,4 +93,8 @@
 
 .woocommerce .underline {
   @apply border-b-2 border-black;
+}
+
+.woocommerce-info {
+  border-top: none !important;
 }

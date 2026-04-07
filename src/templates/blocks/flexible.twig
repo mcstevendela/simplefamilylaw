@@ -36,6 +36,11 @@
         {% if item.button %}
           <div class="rd-flexible-button">
             <a href="{{ item.button.url }}" target="{{ item.button.target }}" class="btn btn-primary">{{ item.button.title }}</a>
+            {% if item.additional_button %}
+              {% for link in item.buttons %}
+              <a href="{{ link.button.url }}" target="{{ link.button.target }}" class="btn btn-primary">{{ link.button.title }}</a>
+              {% endfor %}
+            {% endif %}
           </div>
         {% endif %}
       {% endfor %}

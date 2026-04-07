@@ -116,7 +116,7 @@ function documentsNavigation() {
     }
 
     document.querySelectorAll('a').forEach(link => {
-      if (link.textContent.trim() === 'Subscribe') {
+      if (link.textContent.trim() === 'Subscribe for Full Access') {
         link.textContent = 'Documents';
         link.setAttribute('href', '/documents/');
       }

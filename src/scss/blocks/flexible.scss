@@ -18,6 +18,10 @@
     }
   }
 
+  &-button {
+    @apply flex gap-4 flex-wrap;
+  }
+
   &-main {
     & > *:last-child {
       @apply mb-0;
